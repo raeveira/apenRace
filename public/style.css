@@ -1,0 +1,31 @@
+/* back-end */
+* {
+    font-family: Helvetica, Georgia,  'linefont';
+    --color-primary: #009579;
+    --color-primary-dark: #007f67;
+    --color-secondary: #252c6a;
+    --color-error: #630909;
+    --color-success: #0A694E;
+    --border-radius: 4px;  
+}
+
+body {
+    margin: 0;
+}
+
+/* custom font */
+@font-face {
+    font-family: 'pixellari';
+    src: url('/public/fonts/Pixellari/pixellari-webfont.woff2') format('woff2'),
+         url('/public/fonts/Pixellari/pixellari-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'linefont';
+    src: url('/public/fonts/lineFont/Linefont-VariableFont_wdth\,wght.woff2') format('woff2'),
+         url('/public/fonts/lineFont/Linefont-VariableFont_wdth\,wght.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

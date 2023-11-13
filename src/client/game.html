@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="pageTitle">Apen Race</title>
+    <link rel="stylesheet" type="text/css" href="public\style.css" />
+    <link rel="stylesheet" type="text/css" href="/src/client/style.css" />
+    <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
+    <script
+      src="https://kit.fontawesome.com/f9b6a0cf1e.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <audio id="gameMusic" loop autoplay>
+      <source src="/public/sounds/gameMusic.mp3" type="audio/mp3" />
+      <source src="/public/sounds/gameMusic.ogg" type="audio/ogg" />
+      <source src="/public/sounds/gameMusic.wav" type="audio/wav" />
+      Your browser does not support the audio element.
+    </audio>
+    <p id="scoreText">
+      <span id="score" style="font-size: 3rem"> 0 </span>
+    </p>
+    <div class="imageContainer">
+      <img
+        id="scoreImage"
+        src="/public/images/gameAchtergrond.png"
+        draggable="false"
+        style="-moz-user-select: none; user-select: none"
+        ondragstart="return false;"
+      />
+    </div>
+    <div id="monkeyClimb">
+      <img
+        src="../../public/images/monkey stationary.png"
+        id="climbLeft"
+        draggable="false"
+        style="-moz-user-select: none; user-select: none"
+        ondragstart="return false;"
+      />
+      <img
+        src=""
+        id="climbRight"
+        draggable="false"
+        style="-moz-user-select: none; user-select: none"
+        ondragstart="return false;"
+      />
+    </div>
+    <div id="questionDisplay"></div>
+
+    <!-- finished game -->
+    <div id="finishedGamePopup">
+      <div id="endDisplay">Je hebt het einde bereikt!! <br> Ga terug naar de home pagina om opnieuw te spelen.</div>
+      <button id="endButton" class="return">
+        <i class="fa-solid fa-x"></i>
+      </button>
+    </div>
+
+    <!-- somveld -->
+    <input
+      type="text"
+      id="sumfield"
+      name="sumInput"
+      autocomplete="off"
+      maxlength="255"
+      placeholder="Type here to answer . . ."
+    />
+    <div id="messageDisplay"></div>
+    <!-- Chat -->
+    <div class="chat" id="chat">
+      <ul id="messages"></ul>
+      <form id="form" action="" style="margin-bottom: 0px">
+        <input
+          id="input"
+          name="chatInput"
+          autocomplete="off"
+          maxlength="255"
+          placeholder="Type here to chat . . ."
+        />
+      </form>
+    </div>
+    <!-- back -->
+    <button id="quitButton" class="return">
+      <i class="fa-solid fa-x"></i>
+    </button>
+    <!-- Modal dialog -->
+    <div id="quitModal" class="modal">
+      <div class="modal-content">
+        <p>Do you really want to quit the game?</p>
+        <button id="yesButton" class="modal-button">Yes</button>
+        <button id="noButton" class="modal-button">No</button>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/src/client/js/chat.js"></script>
+    <script src="/src/client/js/game.js"></script>
+    <script src="/src/client/js/language.js"></script>
+    <script>
+      var endButton = document.getElementById("endButton");
+      var quitButton = document.getElementById("quitButton");
+      var quitModal = document.getElementById("quitModal");
+      var yesButton = document.getElementById("yesButton");
+      var noButton = document.getElementById("noButton");
+
+      endButton.addEventListener("click", function () {
+        quitModal.style.display = "block";
+      });
+      
+      // Show the modal when the quit button is clicked
+      quitButton.addEventListener("click", function () {
+        quitModal.style.display = "block";
+      });
+
+      // Close the modal and redirect to home.html when "Yes" is clicked
+      yesButton.addEventListener("click", function () {
+        quitModal.style.display = "none";
+        window.location.href = "home";
+      });
+
+      // Close the modal when "No" is clicked
+      noButton.addEventListener("click", function () {
+        quitModal.style.display = "none";
+      });
+
+      window.addEventListener("unload", function (e) {
+        // sends player to home menu when refreshing page
+        window.location.href = "/home";
+      });
+
+      var audio = document.getElementById("gameMusic");
+
+          if (localStorage.getItem("volume")) {
+            var storedVolume = localStorage.getItem("volume");
+            audio.volume = storedVolume / 100;
+          }
+    </script>
+    
+  </body>
+</html>

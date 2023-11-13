@@ -1,0 +1,682 @@
+#chat {
+  width: 20vw;
+  height: 40%;
+  overflow-wrap: break-word;
+  overflow-y: scroll;
+  position: fixed;
+  bottom: 50px;
+  scrollbar-color: white transparent;
+  scroll-behavior: smooth;
+}
+
+#chat #form {
+  width: 20vw;
+}
+
+/* home page */
+
+.button-background {
+  border: none;
+  border-radius: 6px;
+  background-image: url("/public/images/button-background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: contain;
+  margin: 2.5vh 0;
+}
+
+#info {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  color: rgb(206, 206, 206); /* Set text color to white */
+  background-color: #0f0f0f70;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.3rem;
+  border-radius: 3px;
+}
+
+#info:hover {
+  background-color: #1a1a1a70;
+}
+
+#infoHoverContent {
+  display: none;
+}
+#info:hover #infoHoverContent {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: block;
+  background-color: #1a1a1ae8;
+  width: 600px;
+  cursor: auto;
+  padding: 10px;
+  z-index: 2;
+}
+
+.buttons {
+  position: absolute;
+  top: 18%;
+  left: 45vw;
+  right: 45vw;
+}
+
+.buttons b {
+  padding: 0 0.1vw;
+}
+
+.buttons a {
+  text-decoration: none;
+}
+
+.buttons button {
+  width: 11vw;
+  height: 6vw;
+  display: block;
+  color: #ffffff;
+  font-size: 1.35vw;
+  padding-bottom: 1vh;
+}
+
+.buttons button:hover {
+  transform: scale(1.02);
+  color: #e8e8e8;
+  cursor: pointer;
+}
+
+.buttons button:active {
+  transform: scale(0.98);
+}
+
+/* login page */
+
+#form {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.25rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: 3rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+}
+
+#input {
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+  border-radius: 2rem;
+  margin: 0.25rem;
+  width: 90%;
+}
+
+#input:focus {
+  outline: none;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messages > li {
+  padding: 0.5rem 1rem;
+  background: #1f1f1f70;
+  color: white;
+}
+
+#messages > li:nth-child(odd) {
+  background: #23212170;
+  color: white;
+}
+
+.chat ul {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.chat.inactive ul {
+  opacity: 0;
+}
+
+.login {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background-image: url("/public/images/sky.pixil.png");
+  background-size: cover;
+}
+
+.login .container {
+  height: auto;
+  width: 400px;
+  max-width: 400px;
+  margin: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+  background: #ffffff69;
+}
+
+.login .container,
+.form__input,
+.form__button {
+  font: 500 1rem "Quicksand", sans-serif;
+}
+
+.login .form--hidden {
+  display: none;
+}
+
+.login .form > *:first-child {
+  margin-top: 0;
+}
+
+.login .form > *:last-child {
+  margin-bottom: 0;
+}
+
+.login .form__title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.login .form__message {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login .form__message--success {
+  color: var(--color-success);
+}
+
+.login .form__message--error {
+  color: var(--color-error);
+}
+
+.login .form__input-group {
+  margin-bottom: 1rem;
+}
+
+.login .form__input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  border: 1px solid #dddddd;
+  outline: none;
+  background: #eeeeee;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.login .form__input:focus {
+  border-color: var(--color-primary);
+  background: #ffffff;
+}
+
+.login .form__input--error {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.login .form__input-error-message {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-error);
+}
+
+.login .form__button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--border-radius);
+  outline: none;
+  cursor: pointer;
+  background: var(--color-primary);
+}
+
+.login .form__button:hover {
+  background: var(--color-primary-dark);
+}
+
+.login .form__button:active {
+  transform: scale(0.98);
+}
+
+.login .form__text {
+  text-align: center;
+}
+
+.login .form__link {
+  color: var(--color-secondary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login .form__link:hover {
+  text-decoration: underline;
+}
+
+#sumfield {
+  position: absolute;
+  text-align: left;
+  bottom: 5%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center both horizontally and vertically */
+  font-size: 1.5vw;
+  width: 20vw;
+  height: 5vh;
+}
+
+.return {
+  font-size: 1.3vw;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+/* Add CSS styles for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Style for the "Yes" and "No" buttons */
+.modal-button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Style for the timer and user count in the top-right corner */
+.top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Style for the pop-up window */
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 89%;
+  width: 15%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 5px 5px 25px 5px;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  z-index: 1000;
+}
+
+.popup-content {
+  position: relative;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+#lobbyId {
+  text-align: right;
+  margin: 0;
+  padding-top: 1px;
+  padding-right: 1px;
+  font-size: 1vw;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#disconnectButton {
+  width: 150px;
+  height: 40px;
+  font-size: 1.1vw;
+}
+
+#disconnectButton:hover {
+  cursor: pointer;
+}
+
+#questionDisplay {
+  position: absolute;
+  text-align: center;
+  bottom: 15%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center both horizontally and vertically */
+  font-size: 2vw;
+  width: 300px;
+  height: auto;
+  color: white;
+  font-weight: bold;
+}
+
+#climbLeft,
+#climbRight {
+  position: absolute;
+  text-align: center;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.75vw;
+  width: 300px;
+  height: auto;
+}
+
+.imageContainer {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#scoreImage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+#score,
+#scoreText {
+  font-size: 1.3vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 10px;
+  margin-top: 200px;
+  z-index: 10;
+  color: white;
+  font-weight: bold;
+}
+
+#messageDisplay {
+  position: absolute;
+  text-align: center;
+  top: 20%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center both horizontally and vertically */
+  font-size: 1.75vw;
+  width: 300px;
+  height: auto;
+  color: white;
+  font-weight: bold;
+}
+
+.container {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+#picture {
+  position: absolute;
+  top: 0;
+  transition: top 0.5s;
+  max-width: 100%;
+}
+
+#userList li {
+  list-style-type: none;
+}
+
+#voteSkip,
+#voteStay {
+  width: 125px;
+  height: 40px;
+  font-size: 1.1vw;
+  display: inline-block;
+}
+
+#voteSkip:hover,
+#voteStay:hover {
+  cursor: pointer;
+}
+
+/* finished game */
+#finishedGamePopup {
+  display: none;
+  position: fixed;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.9
+  ); /* Change background color to match the waiting room */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  color: white; /* Set text color to white */
+  width: 80%; /* Adjust the width as needed */
+  max-width: 400px; /* Set a maximum width if desired */
+  height: auto;
+}
+
+/* settings */
+#settingPopup {
+  display: none;
+  position: fixed;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.9
+  ); /* Change background color to match the waiting room */
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  color: white; /* Set text color to white */
+  width: 80%; /* Adjust the width as needed */
+  max-width: 400px; /* Set a maximum width if desired */
+}
+/* Add this code to make text inside the option menu white */
+#settingPopup {
+  color: white; /* Set the text color to white */
+  padding: 15px; /* Add padding to the entire popup */
+  padding-top: 10px; /* Reduce the top padding of the popup */
+}
+
+/* Add this code to make sure dropdowns, inputs, and the exit button have their original styling */
+#settingPopup select,
+#settingPopup input {
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+  outline: none;
+  background: #eeeeee;
+  transition: background 0.4s, border-color 0.4s;
+  margin-bottom: 7.5px; /* Add margin to the bottom of dropdowns and inputs */
+}
+
+#settingPopup select:focus,
+#settingPopup input:focus {
+  border-color: var(--color-primary); /* Use your specific focus color */
+  background: #ffffff;
+}
+
+/* Increase spacing around individual options or elements inside the popup */
+#settingPopup .option {
+  margin-bottom: 1rem; /* Adjust margin as needed */
+}
+/* Increase spacing around the exit button */
+#exitButton {
+  margin-top: 15px; /* Add margin above the exit button */
+}
+/* Adjust the margin of the "Opties" title */
+#settingPopup .opties-title {
+  margin-bottom: 10px; /* Reduce the margin below the title */
+}
+/* Increase the width of input fields inside the settings popup */
+#settingPopup input {
+  width: 100%; /* Set the width to 100% to make it expand to the container's width */
+}
+
+/* Move the "Sluit" (Close) button to the right */
+#settingsCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: rgb(6, 5, 5); /* Set text color to white */
+  cursor: pointer;
+}
+/* Style for the percentage display */
+
+/* Style for the percentage display */
+.percentage {
+  font-size: 16px;
+  display: inline-block; /* Change to inline-block to ensure the percentage is always displayed */
+  vertical-align: middle;
+  margin-left: 10px; /* Add spacing between slider and percentage */
+}
+/* Increase the font size for the dropdown menu */
+#dropdown,
+.dropdown {
+  font-size: 16px; /* Adjust the font size as needed */
+  font-family: pixellari;
+}
+
+.timer {
+  margin-top: 20px;
+}
+
+.leaderboardPopup {
+  display: none;
+  position: fixed;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  color: white;
+  width: 80%;
+  max-width: 400px;
+}
+
+/* Use CSS Grid for the table layout */
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100%;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.child-1 {
+  background: red;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3 end;
+}
+
+.child-2 {
+  background: green;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3 end;
+}
+
+.child-3 {
+  background: black;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3 end;
+}
+
+
+.child-1,
+.child-2,
+.child-3 {
+  align-items: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#secret {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  color: #ffffff09;
+  background-color: #0000000a;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}

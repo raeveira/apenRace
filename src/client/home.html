@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <audio src="/public/sounds/homeMenu.wav" autoplay loop ></audio> -->
+    <title id="pageTitle">Apen Race</title>
+    <link rel="stylesheet" type="text/css" href="public\style.css" />
+    <link rel="stylesheet" type="text/css" href="src\client\style.css" />
+    <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
+    <script
+      src="https://kit.fontawesome.com/f9b6a0cf1e.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      body {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url("/public/images/pixil-gif-drawing.gif");
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="homeMusic" loop autoplay>
+      <source src="/public/sounds/homeMenu.mp3" type="audio/mp3" />
+      <source src="/public/sounds/homeMenu.ogg" type="audio/ogg" />
+      <source src="/public/sounds/homeMenu.wav" type="audio/wav" />
+      Your browser does not support the audio element.
+    </audio>
+    <div id="waitingPopup" class="popup">
+      <p id="lobbyId"></p>
+      <div class="popup-content">
+        <div id="votingDiv">
+          <p id="vote">Stem?</p>
+          <button id="voteSkip">skip</button>
+          <button id="voteStay">blijf</button>
+          <p id="skipVotesText">skip stemmen:</p>
+          <span id="skipCount">0</span>
+          <p id="stayVotesText">blijf stemmen:</p>
+          <span id="stayCount">0</span>
+        </div>
+        <div class="timer"><span id="timer">05:00</span></div>
+        <br />
+        <div id="spinner" class="spinner"></div>
+        <p id="waitingPlayer">wachten voor spelers...</p>
+        <div><span id="playerCount">0</span> / 10</div>
+        <div id="userList"></div>
+        <br />
+        <button id="disconnectButton">verlaten</button>
+      </div>
+    </div>
+
+    <div id="info">
+      <i class="fa-solid fa-question"></i>
+      <div id="infoHoverContent">
+        <p id="gameExplanation">
+          doel: het doel van het spel is om als eerste bij de top te komen van
+          de boom.
+        </p>
+        <p id="gameExplanation1">
+          Spel: je krijgt in het midden van je scherm vragen die te maken hebben
+          met rekenen, elke vraag die je goed hebt ga je dus een stukje omhoog
+          van de boom, maar kijk uit als je een fout maakt ga je weer omlaag.
+        </p>
+        <p id="gameExplanation2">
+          Moeilijkheid: De vragen hebben 3 moeilijksheidgraden die je in de
+          settings kunt aanpassen.
+        </p>
+        <p id="gameExplanation3">
+          De sommen: de vragen bevatten: optellen, aftrekken, multiplicatie,
+          delen,quadraten en wortels.
+        </p>
+      </div>
+    </div>
+
+    <div id="buttons" class="buttons">
+      <button id="playButton" class="button-background">
+        <b>Speel</b>
+      </button>
+      <button id="settingsButton" class="button-background">
+        <b>Opties</b>
+      </button>
+
+      <button id="scoreboard" class="button-background">
+        <b>scoreboard</b>
+      </button>
+
+      <button id="logout" class="logout-button button-background">
+        <b>uitloggen</b>
+      </button>
+    </div>
+
+    <!-- settings -->
+    <div id="settingPopup">
+      <div class="settings-menu">
+        <h1 id="gameOptions">Game opties</h1>
+        <div class="option">
+          <label id="sound" for="geluid">Geluid:</label>
+          <span class="percentage">50%</span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            class="slider"
+            id="geluid"
+            name="geluid"
+          />
+        </div>
+        <div class="option">
+          <label id="music" for="muziek">Muziek:</label>
+          <span class="percentage" id="volumeDisplay">100%</span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="100"
+            class="slider"
+            id="muziek"
+            name="muziek"
+            oninput="updateVolume()"
+          />
+        </div>
+
+        <script>
+          var audio = document.getElementById("homeMusic");
+          var volumeSlider = document.getElementById("muziek");
+
+          if (localStorage.getItem("volume")) {
+            var storedVolume = localStorage.getItem("volume");
+            volumeSlider.value = storedVolume;
+            audio.volume = storedVolume / 100;
+            document.getElementById("volumeDisplay").textContent =
+              storedVolume + "%";
+          }
+
+          function updateVolume() {
+            var volume = volumeSlider.value;
+            document.getElementById("volumeDisplay").textContent = volume + "%";
+            audio.volume = volume / 100;
+
+            localStorage.setItem("volume", volume);
+          }
+        </script>
+
+        <div id="option" class="option">
+          <label for="languageSelector" id="languageSelectorText"
+            >Selecteer Taal:</label
+          >
+          <select id="languageSelector">
+            <option value="nl">Nederlands</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+          </select>
+        </div>
+        <div class="option">
+          <label id="difficultyText" for="difficulty"
+            >Moeilijkheidsgraad:</label
+          >
+          <select id="difficultySelector">
+            <option id="easy" value="easy">Makkelijk</option>
+            <option id="medium" value="medium">Gemiddeld</option>
+            <option id="hard" value="hard">Moeilijk</option>
+          </select>
+        </div>
+        <button id="settingsCloseButton"><i class="fa-solid fa-x"></i></button>
+      </div>
+      <div></div>
+    </div>
+
+    <!--Leaderboard-->
+    <div id="leaderboardPopup" class="leaderboardPopup">
+      <div class="popup-content">
+        <h1 id="globalLeaderboard">Globaal Leaderboard</h1>
+        <div class="parent">
+          <div id="leaderRank" class="child-1">rank</div>
+          <div id="leaderRankContent"></div>
+          <div id="leaderUsername" class="child-2">username</div>
+          <div id="leaderUsernameContent"></div>
+          <div id="leaderWins" class="child-3">Wins</div>
+          <div id="leaderWinsContent"></div>
+        </div>
+        <div id="leaderboardContainer"></div>
+        <button id="closeLeaderboardButton">Sluit scorebord</button>
+      </div>
+    </div>
+
+    <!-- Chat -->
+    <div class="chat" id="chat">
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input
+          id="input"
+          name="chatInput"
+          autocomplete="off"
+          maxlength="255"
+          placeholder="Typ hier om te chatten . . ."
+        />
+      </form>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/src/client/js/chat.js"></script>
+      <script src="/src/client/js/waitingRoom.js"></script>
+      <script src="/src/client/js/settings.js"></script>
+      <script src="/src/client/js/language.js"></script>
+      <script src="/src/client/js/difficulty.js"></script>
+      <script src="/src/client/js/leaderboard.js"></script>
+      <script src="/src/client/js/volume.js"></script>
+
+      <script>
+        // logout
+        document.addEventListener("DOMContentLoaded", () => {
+          // Add an event listener for the logout button
+          document
+            .querySelector(".logout-button")
+            .addEventListener("click", () => {
+              // Perform AJAX/Fetch request to log out
+              let xhr = new XMLHttpRequest();
+              xhr.open("POST", "/logout"); // Create a new route for logout if needed
+              xhr.setRequestHeader("Content-Type", "application/json");
+
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                    // Redirect the user to the login page after successful logout
+                    window.location.href = "/";
+                  } else {
+                    // Handle logout error (if any)
+                    console.error(
+                      "Logout error:",
+                      xhr.status,
+                      xhr.responseText
+                    );
+                  }
+                }
+              };
+
+              xhr.send();
+            });
+        });
+      </script>
+
+      <script>
+        window.addEventListener("beforeunload", function (e) {
+          // Emit an event to the server to disconnect from the queue
+          socket.emit("disconnectFromQueue");
+        });
+      </script>
+    </div>
+    <div id="secret"></div>
+  </body>
+</html>

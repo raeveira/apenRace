@@ -1,0 +1,22 @@
+{
+  "name": "gildegaming-rekenspel",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.1.2"
+  },
+  "scripts": {
+    "start": "node src/server/index.js"
+  },
+  "main": "src/server/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
