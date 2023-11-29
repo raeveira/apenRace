@@ -12,9 +12,10 @@ const answerInput = document.getElementById("sumfield");
 const submitButton = document.getElementById("submitButton");
 const messageElement = document.getElementById("messageDisplay");
 const scoreElement = document.getElementById("score"); // Add score element
-const finishedGameCloseButton = document.getElementById("finishedGameCloseButton");
+const finishedGameCloseButton = document.getElementById(
+  "finishedGameCloseButton"
+);
 const finishedGamePopup = document.getElementById("finishedGamePopup");
-
 
 // Initialize the game state
 function initializeGameState() {
@@ -73,9 +74,9 @@ function displayQuestion() {
     finishedGamePopup.style.display = "block";
     // submitButton.style.display = "none";
 
-    if (score === 20){
+    if (score === 20) {
       let winPoint = 0;
-      winPoint ++
+      winPoint++;
       // console.log(winPoint);
       fetch("/leaderboard/save-leaderboard", {
         method: "POST",
@@ -92,14 +93,21 @@ function displayQuestion() {
 function checkAnswer() {
   const userAnswer = answerInput.value.trim() || 0;
   const currentQuestionAnswer = questions[currentQuestionIndex].answer;
-// console.log(userAnswer, currentQuestionAnswer)
+  // console.log(userAnswer, currentQuestionAnswer)
   // Send the user's answer to the server using sockets
-  socket.emit("submitAnswer", {index: currentQuestionIndex, answer: userAnswer, question: currentQuestionAnswer });
+  socket.emit("progress", {
+    pg: true,
+    index: currentQuestionIndex,
+  });
+console.log (currentQuestionIndex);
+  socket.emit("submitAnswer", {
+    question: currentQuestionAnswer,
+    answer: userAnswer,
+  });
 }
 
 // Initialize the game when the page loads
 window.addEventListener("load", () => {
-
   // Initialize the game
   initGame();
 
@@ -119,7 +127,7 @@ window.addEventListener("load", () => {
     } else if (data.correctAnswer === false) {
       score--;
       messageElement.textContent = "Incorrect! -1";
-    } else{
+    } else {
       erorr.log("no data gotten: ", data);
     }
 
@@ -132,18 +140,28 @@ window.addEventListener("load", () => {
     const imageMoveAmount = score * -200; // Adjust the value as needed
 
     if (imageMoveAmount < maxBottomValue) {
-    scoreImageElement.style.bottom = imageMoveAmount + "px";
+      scoreImageElement.style.bottom = imageMoveAmount + "px";
     }
     currentQuestionIndex += 1;
     displayQuestion(); // Display the next question after 1 second
- 
   });
 
-  socket.on("progress", (data) => {
-    // console.log("Progress event received:", data);
-    const { user, index } = data;
-    // console.log("Username:", user);
-    // console.log("Question Index:", index);
+  // Listen for the "redirect" event from the server
+  socket.on("redirect", (data) => {
+    // Check if the data contains a destination property
+    // console.log(data);
+    if (data && data.destination) {
+      // Perform the redirect using JavaScript
+      window.location.href = data.destination;
+    }
   });
-  
+
+  console.log("Client-side script executed");
+
+  socket.on("progress", (user, index) => {
+    console.log("Progress event received:", user, index);
+    //const { user, index } = user, index;
+    console.log("Username:", user);
+    console.log("Question Index:", index);
+  });
 });

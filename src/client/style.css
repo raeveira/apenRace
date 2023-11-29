@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 #chat {
   width: 20vw;
   height: 40%;
@@ -668,6 +672,23 @@
   display: flex;
   justify-content: center;
   
+}
+
+#SessionInvalid {
+  font-size: 1.5rem;
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  color: white;
+  width: 80%;
+  max-width: 400px;
+  z-index: 10;
 }
 
 #secret {
