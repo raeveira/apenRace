@@ -1,13 +1,14 @@
 const cors = require("cors");
 const path = require("path");
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require("express");
 const session = require("express-session");
-require("dotenv").config();
 const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+
+// console.log("PORT:", process.env.PORT);
 const port = process.env.PORT || 3000;
-// console.log(process.env.PORT);
 const WaitingRoomManager = require("./controllers/waitingRoomController"); // Import the WaitingRoomManager class
 const { GameManager } = require("./controllers/gameController");
 // Create an instance of WaitingRoomManager
@@ -90,7 +91,7 @@ app.get("/game", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../client/game.html"));
   } else {
     // Redirect to the login page or show an error message
-    res.redirect("/");
+    res.redirect("/home");
   }
 });
 
@@ -128,6 +129,10 @@ io.on("connection", (socket) => {
 
   socket.on("submitAnswer", (data) => {
     gameManager.submitAnswer(data, socket);
+  });
+
+  socket.on("progress", (data) => {
+    gameManager.progress(data, socket);
   });
 
   socket.on("voteSkip", (lobby) => {

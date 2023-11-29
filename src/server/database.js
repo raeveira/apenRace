@@ -1,17 +1,28 @@
-const mysql = require("mysql");
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
-// database
+const mysql = require('mysql');
+
+// console.log("DB_HOST:", process.env.DB_HOST);
+// console.log("DB_USER:", process.env.DB_USER);
+// console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+// console.log("DB_DATABASE:", process.env.DB_DATABASE);
+
+// Database configuration
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "apen_race",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
-// connect to the database
-connection.connect(function (error) {
-  if (error) throw error;
-  else console.log("connected to the database successfully!");
+// Connect to the database
+connection.connect((error) => {
+  if (error) {
+    throw error;
+  } else {
+    console.log("Connected to the database successfully!");
+  }
 });
 
 module.exports = connection;
