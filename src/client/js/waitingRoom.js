@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   socket.on("lobbyData", (data) => {
     const lobby = data.lobbyId;
+    // console.log(lobby);
     const lobbyData = data;
     // console.log("Received lobby data in waitingRoom.js:", lobbyData);
     lobbyId.textContent = lobby;
@@ -103,7 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Event listener for "joinedWaitingRoom" from the server
   socket.on("joinedWaitingRoom", (data) => {
-    // console.log("Joined waiting room. Username:", data.username);
+    // console.log(data);
+    // console.log("Joined waiting room. Username:", data.username, 'socketID:', data.id);
     lobby = data.lobby;
 
   });

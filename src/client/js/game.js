@@ -99,7 +99,7 @@ function checkAnswer() {
     pg: true,
     index: currentQuestionIndex,
   });
-console.log (currentQuestionIndex);
+  // console.log (currentQuestionIndex);
   socket.emit("submitAnswer", {
     question: currentQuestionAnswer,
     answer: userAnswer,
@@ -128,7 +128,7 @@ window.addEventListener("load", () => {
       score--;
       messageElement.textContent = "Incorrect! -1";
     } else {
-      erorr.log("no data gotten: ", data);
+      error.log("no data gotten: ", data);
     }
 
     setTimeout(() => {
@@ -155,13 +155,61 @@ window.addEventListener("load", () => {
       window.location.href = data.destination;
     }
   });
+});
 
-  console.log("Client-side script executed");
+document.addEventListener("DOMContentLoaded", () => {
+  // console.log("Client-side script executed");
+  let personalUserIndex, personalUserScore;
 
-  socket.on("progress", (user, index) => {
-    console.log("Progress event received:", user, index);
+  const othersContainer = document.getElementById("others");
+  const userScores = {}; // Dictionary to store user scores
+
+  socket.on("userIndex", (data) => {
+    const multiUserIndex = data.user;
+    let multiUserScore = userScores[multiUserIndex] || 0;
+    multiUserScore++; // Increment the score as per your logic
+
+    // Update the user score in the dictionary
+    userScores[multiUserIndex] = multiUserScore;
+
+    // Clear previous content in othersContainer
+    othersContainer.innerHTML = "";
+
+    // Loop through the userScores dictionary and create a new row for each user
+    for (const [username, score] of Object.entries(userScores)) {
+      const userRow = document.createElement("div");
+      const usernameIndex = document.createElement("span");
+      const usernameScore = document.createElement("span");
+
+      usernameIndex.classList.add("multiUsernameIndex");
+      usernameScore.classList.add("multiUsernameScore");
+
+      usernameIndex.textContent = username;
+      usernameScore.textContent = score;
+
+      userRow.appendChild(usernameIndex);
+      userRow.appendChild(usernameScore);
+
+      othersContainer.appendChild(userRow);
+    }
+  });
+
+  socket.on("persUserIndex", (data) => {
+    // console.log("Progress event received:", data);
     //const { user, index } = user, index;
-    console.log("Username:", user);
-    console.log("Question Index:", index);
+    // console.log("Username:", data.user);
+    // console.log("Question Index:", data.index);
+    const usernameIndex = document.getElementById("usernameIndex");
+    const usernameScore = document.getElementById("usernameScore");
+
+    personalUserIndex = data.user;
+    personalUserScore = data.index;
+
+    personalUserScore++;
+
+    if (personalUserIndex) {
+      usernameIndex.textContent = personalUserIndex;
+      usernameScore.textContent = personalUserScore;
+    }
   });
 });

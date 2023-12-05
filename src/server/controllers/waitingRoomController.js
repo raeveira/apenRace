@@ -1,7 +1,7 @@
 console.log("waitingRoomController.js = Loaded");
 
 const MAX_PLAYERS = 10;
-const WAITING_ROOM_TIMEOUT = .5 * 60 * 1000; // 5 minutes in milliseconds
+const WAITING_ROOM_TIMEOUT = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 class WaitingRoomManager {
   constructor() {
@@ -93,6 +93,7 @@ class WaitingRoomManager {
     stayVotesI = ObjectLengthII(lobbyToJoin.stayVotes);
 
     lobbyToJoin.players.push({ id: socket.id, username }); // Store the username
+    // console.log(socket.id)
     socket.emit("joinedWaitingRoom", { username });
 
     // Start or resume the timer for the lobby

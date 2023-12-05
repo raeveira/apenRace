@@ -170,7 +170,7 @@
   padding: 2rem;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
-  background: #ffffff69;
+  /* background: #ffffff69; */
 }
 
 .login .container,
@@ -194,6 +194,7 @@
 .login .form__title {
   margin-bottom: 2rem;
   text-align: center;
+  color: white;
 }
 
 .login .form__message {
@@ -267,9 +268,9 @@
 }
 
 .login .form__link {
-  color: var(--color-secondary);
   text-decoration: none;
   cursor: pointer;
+  color: white;
 }
 
 .login .form__link:hover {
@@ -663,7 +664,6 @@
   grid-row-end: 3 end;
 }
 
-
 .child-1,
 .child-2,
 .child-3 {
@@ -671,7 +671,6 @@
   color: white;
   display: flex;
   justify-content: center;
-  
 }
 
 #SessionInvalid {
@@ -700,4 +699,42 @@
   background-color: #0000000a;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+}
+
+#gameScoreBoard {
+  position: absolute;
+  color: white;
+  width: 200px;
+  height: auto;
+  top: 40%;
+  right: 10px;
+  z-index: 10;
+  background-color: #000000b2;
+}
+
+#usernameIndex,
+#usernameScore,
+.multiUsernameIndex,
+.multiUsernameScore {
+  height: 20px;
+  width: 90px;
+  padding-top: 10px;
+}
+
+#personal, #others {
+  display: inline-block;
+  min-height: 20px;
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.multiUsernameIndex, #usernameIndex {
+  float: left;
+  padding-left: 10px;
+}
+
+.multiUsernameScore, #usernameScore {
+  text-align: right;
+  float: right;
+  padding-right: 10px;
 }
