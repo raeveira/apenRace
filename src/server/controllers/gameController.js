@@ -3,14 +3,15 @@ console.log("gameController.js = Loaded");
 const dataStorage = require("./dataStorage"); // Import the data storage module
 
 class GameManager {
-  constructor(socket, io, connectedSockets) {
-    this.socket = socket;
+  constructor(playerData, io, connectedSockets) {
+    this.socketId = playerData.id;
     this.io = io;
     this.connectedSockets = connectedSockets;
   }
 
   // Function to store lobby data
   storeData(lobbyData) {
+    // console.log(lobbyData);
     dataStorage.storeData(lobbyData); // Use the data storage module to store data
   }
 
@@ -19,9 +20,19 @@ class GameManager {
     const submittedQuestion = parseInt(data.question, 10);
 
     if (submittedAnswer === submittedQuestion) {
-      this.socket.emit("answerResult", { correctAnswer: true });
+      const playerSocket = this.connectedSockets.get(this.socketId);
+      if (playerSocket) {
+        playerSocket.emit("answerResult", { correctAnswer: true });
+      } else {
+        console.error("Player socket not found");
+      }
     } else if (submittedAnswer !== submittedQuestion) {
-      this.socket.emit("answerResult", { correctAnswer: false });
+      const playerSocket = this.connectedSockets.get(this.socketId);
+      if (playerSocket) {
+        playerSocket.emit("answerResult", { correctAnswer: false });
+      } else {
+        console.error("Player socket not found");
+      }
     }
   }
 
@@ -30,15 +41,17 @@ class GameManager {
     const lobbyData = dataStorage.retrieveData(); // Corrected variable name
     // Now you can access lobbyData in this function
     // console.log("Stored lobby data:", lobbyData);
-// console.log(data);
-    const username = this.socket.request.session.username;
+    // console.log(data);
+    const socketID = this.socketId;
+    // console.log(socketID);
+    const playerSocket = this.connectedSockets.get(socketID);
+    const username = playerSocket.request.session.username;
     const questionIndex = parseInt(data.index, 10);
 
     if (data.pg == true) {
-          
       try {
         if (!Array.isArray(lobbyData.players)) {
-          // If the 'players' property is not an array, handle it here
+          // If the 'players' property is not an array, handle it here 
           console.error(
             "Invalid lobbyData format - 'players' is not an array:",
             lobbyData.players
@@ -46,29 +59,27 @@ class GameManager {
           return;
         } else {
           // Now you can safely loop through the 'players' array
-          lobbyData.players.forEach((playerData) => {
-            if (playerData.id) {
+          // console.log("Players in lobby", lobbyData.players, " <------------------------------"); 
+          
+          for (const playerData of lobbyData.players) {   
+            // lobbyData.players.for((playerData) => {
+            // lobbyData.players.for((playerData) => {
+            if (playerData.id) {     // je moeder
               const playerSocketId = playerData.id;
-
-              console.log("playerData: ", playerData);
-
               // Find the socket with the given playerSocketId from the map
-              const playerSocket = this.connectedSockets.get(playerSocketId);
-
-              console.log("socket: ", playerSocket);
-
+              const playerSocket = this.connectedSockets.get(socketID);
               if (playerSocket) {
-                console.log("gotten here (line60 gc.js)");
-                console.log("username: ", username);
-                console.log("questionIndex: ", questionIndex);
-
-                // this.playerSocket.emit("progress", { user: username, index: questionIndex, });
-                playerSocket.emit("progress", {
+                // console.log('if playerSocket:', playerSocket);
+                playerSocket.  broadcast.emit("userIndex", {
                   user: username,
                   index: questionIndex,
                 });
 
-                console.log("Send successfull to client");
+                playerSocket.emit("persUserIndex", {
+                  user: username,
+                  index: questionIndex,
+                });
+                break;
               } else {
                 console.error("No socket found with id:", playerSocketId);
               }
@@ -78,12 +89,14 @@ class GameManager {
                 playerData
               );
             }
-          });
+            // });
+          }
         }
-      } catch(error) {
-        console.log(error);
+      } catch (error) {
+        // console.log(error);
         // console.log("player not found");
-        playerNotFoundError(this.socket);
+        const playerSocket = this.connectedSockets.get(this.socketId);
+        playerNotFoundError(playerSocket);
       }
     }
   }

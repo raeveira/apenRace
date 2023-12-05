@@ -22,6 +22,7 @@ connection.connect((error) => {
     throw error;
   } else {
     console.log("Connected to the database successfully!");
+    console.log("------------------------");
   }
 });
 
