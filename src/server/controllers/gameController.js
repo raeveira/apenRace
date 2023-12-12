@@ -1,4 +1,5 @@
 console.log("gameController.js = Loaded");
+const connection = require("../database.js");
 
 const dataStorage = require("./dataStorage"); // Import the data storage module
 
@@ -18,66 +19,95 @@ class GameManager {
   submitAnswer(data) {
     const submittedAnswer = parseInt(data.answer, 10);
     const submittedQuestion = parseInt(data.question, 10);
+    let progress = data.progress;
 
     if (submittedAnswer === submittedQuestion) {
+      progress++;
       const playerSocket = this.connectedSockets.get(this.socketId);
       if (playerSocket) {
-        playerSocket.emit("answerResult", { correctAnswer: true });
+        playerSocket.emit("answerResult", {
+          correctAnswer: true,
+          score: progress,
+        });
       } else {
         console.error("Player socket not found");
       }
     } else if (submittedAnswer !== submittedQuestion) {
+      progress--;
       const playerSocket = this.connectedSockets.get(this.socketId);
       if (playerSocket) {
-        playerSocket.emit("answerResult", { correctAnswer: false });
+        playerSocket.emit("answerResult", {
+          correctAnswer: false,
+          score: progress,
+        });
       } else {
         console.error("Player socket not found");
       }
     }
   }
 
-  progress(data) {
-    // Retrieve stored data using the data storage module
-    const lobbyData = dataStorage.retrieveData(); // Corrected variable name
-    // Now you can access lobbyData in this function
-    // console.log("Stored lobby data:", lobbyData);
-    // console.log(data);
-    const socketID = this.socketId;
-    // console.log(socketID);
-    const playerSocket = this.connectedSockets.get(socketID);
-    const username = playerSocket.request.session.username;
-    const questionIndex = parseInt(data.index, 10);
+  async getProfilePhoto(username) {
+    return new Promise((resolve, reject) => {
+      const query =
+        "SELECT `profilePhoto` FROM `account` WHERE `user_name` = ?";
 
-    if (data.pg == true) {
-      try {
+      connection.query(query, [username], (error, results) => {
+        if (error) {
+          console.error("Error executing query", error);
+          reject(error);
+        } else {
+          let profilePhoto =
+            results.length > 0 ? results[0].profilePhoto : null;
+
+          if (!profilePhoto) {
+            profilePhoto = "/public/userPhotos/default.png";
+          }
+          // console.log("Profile Photo:", profilePhoto);
+          resolve(profilePhoto);
+        }
+      });
+    });
+  }
+
+  async progress(data) {
+    try {
+      let progress = data.progress;
+      const lobbyData = dataStorage.retrieveData();
+      const socketID = this.socketId;
+      const playerSocket = this.connectedSockets.get(socketID);
+      const username = playerSocket.request.session.username;
+      const questionIndex = parseInt(data.index, 10);
+
+      if (data.pg == true) {
+        // Retrieve profile photo using the asynchronous getProfilePhoto function
+        const profilePhoto = await this.getProfilePhoto(username);
+
+        // Now you can use the profilePhoto in the rest of your code
+
         if (!Array.isArray(lobbyData.players)) {
-          // If the 'players' property is not an array, handle it here 
           console.error(
             "Invalid lobbyData format - 'players' is not an array:",
             lobbyData.players
           );
           return;
         } else {
-          // Now you can safely loop through the 'players' array
-          // console.log("Players in lobby", lobbyData.players, " <------------------------------"); 
-          
-          for (const playerData of lobbyData.players) {   
-            // lobbyData.players.for((playerData) => {
-            // lobbyData.players.for((playerData) => {
-            if (playerData.id) {     // je moeder
+          for (const playerData of lobbyData.players) {
+            if (playerData.id) {
               const playerSocketId = playerData.id;
-              // Find the socket with the given playerSocketId from the map
               const playerSocket = this.connectedSockets.get(socketID);
               if (playerSocket) {
-                // console.log('if playerSocket:', playerSocket);
-                playerSocket.  broadcast.emit("userIndex", {
+                playerSocket.broadcast.emit("userIndex", {
+                  userPhoto: profilePhoto,
                   user: username,
                   index: questionIndex,
+                  progress: progress,
                 });
 
                 playerSocket.emit("persUserIndex", {
+                  userPhoto: profilePhoto,
                   user: username,
                   index: questionIndex,
+                  progress: progress,
                 });
                 break;
               } else {
@@ -89,15 +119,13 @@ class GameManager {
                 playerData
               );
             }
-            // });
           }
         }
-      } catch (error) {
-        // console.log(error);
-        // console.log("player not found");
-        const playerSocket = this.connectedSockets.get(this.socketId);
-        playerNotFoundError(playerSocket);
       }
+    } catch (error) {
+      console.error("An error occurred in the progress function", error);
+      const playerSocket = this.connectedSockets.get(this.socketId);
+      playerNotFoundError(playerSocket);
     }
   }
 }

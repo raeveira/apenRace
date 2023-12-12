@@ -94,17 +94,48 @@ function checkAnswer() {
   const userAnswer = answerInput.value.trim() || 0;
   const currentQuestionAnswer = questions[currentQuestionIndex].answer;
   // console.log(userAnswer, currentQuestionAnswer)
+  // console.log(score);
   // Send the user's answer to the server using sockets
-  socket.emit("progress", {
-    pg: true,
-    index: currentQuestionIndex,
-  });
   // console.log (currentQuestionIndex);
   socket.emit("submitAnswer", {
     question: currentQuestionAnswer,
     answer: userAnswer,
+    progress: score,
   });
 }
+
+// Listen for the answer result from the server
+socket.on("answerResult", (data) => {
+  if (data.correctAnswer === true) {
+    score = data.score;
+    messageElement.textContent = "Correct! +1";
+  } else if (data.correctAnswer === false) {
+    score = data.score;
+    messageElement.textContent = "Incorrect! -1";
+  } else {
+    error.log("no data gotten: ", data);
+  }
+
+  setTimeout(() => {
+    messageElement.textContent = "";
+  }, 1000);
+
+  document.getElementById("score").textContent = score;
+  const maxBottomValue = 2;
+  const imageMoveAmount = score * -200; // Adjust the value as needed
+
+  if (imageMoveAmount < maxBottomValue) {
+    scoreImageElement.style.bottom = imageMoveAmount + "px";
+  }
+  currentQuestionIndex += 1;
+  displayQuestion(); // Display the next question after 1 second
+
+  socket.emit("progress", {
+    pg: true,
+    index: currentQuestionIndex,
+    progress: score,
+  });
+});
 
 // Initialize the game when the page loads
 window.addEventListener("load", () => {
@@ -117,33 +148,6 @@ window.addEventListener("load", () => {
       event.preventDefault();
       checkAnswer();
     }
-  });
-
-  // Listen for the answer result from the server
-  socket.on("answerResult", (data) => {
-    if (data.correctAnswer === true) {
-      score++;
-      messageElement.textContent = "Correct! +1";
-    } else if (data.correctAnswer === false) {
-      score--;
-      messageElement.textContent = "Incorrect! -1";
-    } else {
-      error.log("no data gotten: ", data);
-    }
-
-    setTimeout(() => {
-      messageElement.textContent = "";
-    }, 1000);
-
-    document.getElementById("score").textContent = score;
-    const maxBottomValue = 2;
-    const imageMoveAmount = score * -200; // Adjust the value as needed
-
-    if (imageMoveAmount < maxBottomValue) {
-      scoreImageElement.style.bottom = imageMoveAmount + "px";
-    }
-    currentQuestionIndex += 1;
-    displayQuestion(); // Display the next question after 1 second
   });
 
   // Listen for the "redirect" event from the server
@@ -160,12 +164,16 @@ window.addEventListener("load", () => {
 document.addEventListener("DOMContentLoaded", () => {
   // console.log("Client-side script executed");
   let personalUserIndex, personalUserScore;
-
-  const othersContainer = document.getElementById("others");
   const userScores = {}; // Dictionary to store user scores
 
   socket.on("userIndex", (data) => {
+    const gameScoreBoard = document.getElementById("gameScoreBoard");
+    gameScoreBoard.style.display = "grid";
+    const multiProfilePhoto = document.getElementById("multiProfilePhoto");
+    multiProfilePhoto.style.display = "inline-block";
     const multiUserIndex = data.user;
+    const progress = data.progress;
+    const multiUserScoreIndex = data.index;
     let multiUserScore = userScores[multiUserIndex] || 0;
     multiUserScore++; // Increment the score as per your logic
 
@@ -173,43 +181,63 @@ document.addEventListener("DOMContentLoaded", () => {
     userScores[multiUserIndex] = multiUserScore;
 
     // Clear previous content in othersContainer
-    othersContainer.innerHTML = "";
+    document.getElementById("othersLeft").innerHTML = "";
+    document.getElementById("othersRight").innerHTML = "";
 
     // Loop through the userScores dictionary and create a new row for each user
     for (const [username, score] of Object.entries(userScores)) {
-      const userRow = document.createElement("div");
       const usernameIndex = document.createElement("span");
       const usernameScore = document.createElement("span");
+      const multiProfilePhoto = document.createElement("img");
+      multiProfilePhoto.classList.add("profilePhoto");
+      usernameIndex.classList.add("userIndex");
+      usernameScore.classList.add("userScore");
 
-      usernameIndex.classList.add("multiUsernameIndex");
-      usernameScore.classList.add("multiUsernameScore");
+      const totalScore = 20;
+      const barHeight = 450;
+      const correctedHeight = barHeight - 45;
 
-      usernameIndex.textContent = username;
-      usernameScore.textContent = score;
+      const profilePhotoPosition =
+        (1 - multiUserScoreIndex / totalScore) * correctedHeight;
+      multiProfilePhoto.style.top = profilePhotoPosition + "px";
 
-      userRow.appendChild(usernameIndex);
-      userRow.appendChild(usernameScore);
+      multiProfilePhoto.src = data.userPhoto;
+      usernameScore.textContent = progress;
+      usernameIndex.textContent = multiUserIndex;
 
-      othersContainer.appendChild(userRow);
+      document.getElementById("othersLeft").appendChild(usernameScore);
+      document.getElementById("othersLeft").appendChild(usernameIndex);
+
+      document.getElementById("othersRight").appendChild(multiProfilePhoto);
     }
   });
 
   socket.on("persUserIndex", (data) => {
-    // console.log("Progress event received:", data);
-    //const { user, index } = user, index;
-    // console.log("Username:", data.user);
-    // console.log("Question Index:", data.index);
-    const usernameIndex = document.getElementById("usernameIndex");
-    const usernameScore = document.getElementById("usernameScore");
-
+    const profilePhoto = document.getElementById("profilePhoto");
+    profilePhoto.style.display = "inline-block";
+    const profilePhotoPath = data.userPhoto;
     personalUserIndex = data.user;
     personalUserScore = data.index;
+    const personalUserProgress = data.progress;
 
-    personalUserScore++;
+    const gameScoreBoard = document.getElementById("gameScoreBoard");
+    gameScoreBoard.style.display = "grid";
+    const usernameIndex = document.getElementById("usernameIndex");
+    const usernameScore = document.getElementById("usernameScore");
+    const profilePhotoElement = document.getElementById("profilePhoto");
 
-    if (personalUserIndex) {
+    const totalScore = 20;
+    const barHeight = 450;
+    const correctedHeight = barHeight - 45;
+
+    const profilePhotoPosition =
+      (1 - personalUserScore / totalScore) * correctedHeight;
+    profilePhotoElement.style.top = profilePhotoPosition + "px";
+
+    if (profilePhotoPath) {
+      profilePhotoElement.src = profilePhotoPath;
       usernameIndex.textContent = personalUserIndex;
-      usernameScore.textContent = personalUserScore;
+      usernameScore.textContent = personalUserProgress;
     }
   });
 });

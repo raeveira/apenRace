@@ -95,7 +95,7 @@ const registerUser = (req, res) => {
               // Store the hashed password in the database
               connection.query(
                 "INSERT INTO account (user_name, email, user_pass, language, difficulty) VALUES (?, ?, ?, ?, ?)",
-                [username, email, hash, 'nl', 'easy'], // Use the hash instead of the plain password
+                [username, email, hash, 'nl', 'niv1'], // Use the hash instead of the plain password
                 function (error, results, fields) {
                   if (!error) {
                     // Registration successful

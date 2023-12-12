@@ -10,9 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const gameOptions = document.getElementById("gameOptions");
   const sound = document.getElementById("sound");
   const music = document.getElementById("music");
-  const easy = document.getElementById("easy");
-  const medium = document.getElementById("medium");
-  const hard = document.getElementById("hard");
+  const niv1 = document.getElementById("niv1");
+  const niv2 = document.getElementById("niv2");
+  const niv3 = document.getElementById("niv3");
+  const niv4 = document.getElementById("niv4");
   const difficultyText = document.getElementById("difficultyText");
   const waitingPlayer = document.getElementById("waitingPlayer");
   const skipVotesText = document.getElementById("skipVotesText");
@@ -73,14 +74,17 @@ document.addEventListener("DOMContentLoaded", function () {
         if (music) {
           music.textContent = data.music;
         }
-        if (easy) {
-          easy.textContent = data.easy;
+        if (niv1) {
+          niv1.textContent = data.niv1;
         }
-        if (medium) {
-          medium.textContent = data.medium;
+        if (niv2) {
+          niv2.textContent = data.niv2;
         }
-        if (hard) {
-          hard.textContent = data.hard;
+        if (niv3) {
+          niv3.textContent = data.niv3;
+        }
+        if (niv4) {
+          niv4.textContent = data.niv4;
         }
         if (difficultyText) {
           difficultyText.textContent = data.difficultyText;
@@ -119,7 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
           globalLeaderboard.textContent = data.globalLeaderboard;
         }
         if (chatInput) {
-          document.getElementsByName("chatInput")[0].placeholder = data.chatInput;
+          document.getElementsByName("chatInput")[0].placeholder =
+            data.chatInput;
         }
         if (sumInput) {
           document.getElementsByName("sumInput")[0].placeholder = data.sumInput;
