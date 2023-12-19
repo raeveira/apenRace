@@ -162,7 +162,7 @@
   background-size: cover;
 }
 
-.login .container {
+.login .container, #loginDocent, #loginAdmin {
   height: auto;
   width: 400px;
   max-width: 400px;
@@ -170,7 +170,10 @@
   padding: 2rem;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
+<<<<<<< Updated upstream
   /* background: #ffffff69; */
+=======
+>>>>>>> Stashed changes
 }
 
 .login .container,
@@ -498,6 +501,85 @@
   cursor: pointer;
 }
 
+/* Menu teachers/admins */
+
+#kmd_DocentInloggen {
+  display: block;
+  float: left;
+  width: 250px;
+  height: 250px;
+  background-color: rgb(10, 40, 172);
+  opacity: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid black;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+#kmd_AdminInloggen {
+  display: block;
+  float: right;
+  width: 250px;
+  height: 250px;
+  background-color: rgb(13, 232, 232);
+  margin: 0 0 0 300px;
+  opacity: 80%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 2px solid black;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.kmd_text {
+  text-align: center;
+  color: white;
+  font-size: 40px;
+}
+
+.kmd_linkGoBack {
+  margin: 300px 0px 0px 360px;
+}
+
+#linkGoBack {
+  opacity: 80%;
+  padding: 10px;
+  background-color: rgb(221, 208, 219);
+  border: 2px solid black;
+}
+
+#linkGoBack:hover {
+  animation: kmdAdminhover 1.5s linear infinite;
+}
+
+.kmd_textDocent, .kmd_textAdmin {
+  text-align: center;
+  padding-top: 28%;
+  color: white;
+  font-size: 40px;
+  opacity: 100%;
+}
+
+.kmd_hover:hover {
+  animation: kmdAdminhover 1.5s linear infinite;
+}
+
+@keyframes kmdAdminhover {
+  0% 
+  {
+    opacity: 100%;
+    transform: rotate(45deg);
+  }
+  50% 
+  {
+    transform: rotate(-45deg);
+  }
+  100%
+  {
+    
+    transform: rotate(45deg);
+  }
+}
+
 /* finished game */
 #finishedGamePopup {
   display: none;
@@ -701,6 +783,7 @@
   border-top-left-radius: 10px;
 }
 
+<<<<<<< Updated upstream
 #gameScoreBoard {
   position: absolute;
   color: white;
@@ -738,3 +821,21 @@
   float: right;
   padding-right: 10px;
 }
+=======
+/* ========================================== docent page ============================================= */
+.docenten {
+  margin: 0;
+  padding: 0;
+}
+
+.nav_links {
+  width: 100%;
+  background-color: var(--grey2);
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom-left-radius: 30px;
+  border-bottom: 4px solid black;
+}
+>>>>>>> Stashed changes
