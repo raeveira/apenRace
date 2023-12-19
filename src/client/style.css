@@ -170,10 +170,7 @@
   padding: 2rem;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
-<<<<<<< Updated upstream
-  /* background: #ffffff69; */
-=======
->>>>>>> Stashed changes
+  background: #ffffff69;
 }
 
 .login .container,
@@ -783,45 +780,81 @@
   border-top-left-radius: 10px;
 }
 
-<<<<<<< Updated upstream
 #gameScoreBoard {
+  display: none;
+  grid-template-columns: 2fr 1fr;
   position: absolute;
   color: white;
-  width: 200px;
-  height: auto;
-  top: 40%;
+  width: 300px;
+  height: 450px;
+  top: 20%;
   right: 10px;
   z-index: 10;
   background-color: #000000b2;
 }
 
-#usernameIndex,
-#usernameScore,
-.multiUsernameIndex,
-.multiUsernameScore {
-  height: 20px;
-  width: 90px;
-  padding-top: 10px;
-}
-
-#personal, #others {
-  display: inline-block;
-  min-height: 20px;
+#left,
+#othersLeft,
+#userLeft,
+#right {
   width: 100%;
-  box-sizing: border-box; 
 }
 
-.multiUsernameIndex, #usernameIndex {
-  float: left;
-  padding-left: 10px;
+#right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 450px;
 }
+
+#progressWrapper {
+  position: relative;
+  right: 0;
+  height: 100%;
+}
+
+#progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  background: linear-gradient(#9198e5, #e6646400);
+  width: 55px;
+}
+
+#left .userScore, .userIndex {
+  display: inline-block;
+  height: 45px;
+  width: 95px;
+  font-size: 1.5vw;
+  text-align: center;
+  line-height: 200%;
+}
+
+.profilePhoto {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 45px;
+  max-height: 45px;
+  border-radius: 25px;
+  height: 45px;
+  width: 100%;
+  font-size: 1.5vw;
+  text-align: center;
+  line-height: 200%;
+}
+
 
 .multiUsernameScore, #usernameScore {
   text-align: right;
   float: right;
   padding-right: 10px;
 }
-=======
+
 /* ========================================== docent page ============================================= */
 .docenten {
   margin: 0;
@@ -838,4 +871,3 @@
   border-bottom-left-radius: 30px;
   border-bottom: 4px solid black;
 }
->>>>>>> Stashed changes

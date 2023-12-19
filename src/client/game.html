@@ -49,19 +49,32 @@
     <div id="questionDisplay"></div>
 
     <div id="gameScoreBoard">
-      <div id="personal">
-        <span id="usernameIndex"></span>
-        <span id="usernameScore"></span>
+      <div id="left">
+          <span id="usernameScore" class="userScore"></span>
+          <span id="usernameIndex" class="userIndex"></span>
+        <div id="othersLeft">
+          <div id="multiUsernameScore" class="userScore"></div>
+          <div id="multiUsernameIndex" class="userIndex"></div>
+        </div>
       </div>
-      <div id="others">
-        <div id="multiUsernameIndex"></div>
-        <div id="multiUsernameScore"></div>
+      <div id="right">
+        <div id="progressWrapper">
+          <div id="progressBar">
+            <div id="othersRight">
+              <img id="multiProfilePhoto" src="" alt="" class="profilePhoto" />
+            </div>
+            <img id="profilePhoto" src="" alt="" class="profilePhoto" />
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- finished game -->
     <div id="finishedGamePopup">
-      <div id="endDisplay">Je hebt het einde bereikt!! <br> Ga terug naar de home pagina om opnieuw te spelen.</div>
+      <div id="endDisplay">
+        Je hebt het einde bereikt!! <br />
+        Ga terug naar de home pagina om opnieuw te spelen.
+      </div>
       <button id="endButton" class="return">
         <i class="fa-solid fa-x"></i>
       </button>
@@ -117,7 +130,7 @@
       endButton.addEventListener("click", function () {
         quitModal.style.display = "block";
       });
-      
+
       // Show the modal when the quit button is clicked
       quitButton.addEventListener("click", function () {
         quitModal.style.display = "block";
@@ -141,11 +154,10 @@
 
       var audio = document.getElementById("gameMusic");
 
-          if (localStorage.getItem("volume")) {
-            var storedVolume = localStorage.getItem("volume");
-            audio.volume = storedVolume / 100;
-          }
+      if (localStorage.getItem("volume")) {
+        var storedVolume = localStorage.getItem("volume");
+        audio.volume = storedVolume / 100;
+      }
     </script>
-    
   </body>
 </html>
