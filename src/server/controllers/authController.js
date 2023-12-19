@@ -5,16 +5,11 @@ const connection = require("../database.js");
 const express = require("express");
 const app = express();
 app.use(express.json());
-const bodyParser = require("body-parser");
-
-// Parse JSON request bodies
-app.use(bodyParser.json());
 
 const loginUser = (req, res) => {
   if (!req.body) {
     // console.log(req);
   }
-
 
   // Access the data sent from the client in req.body
   const username = req.body.username;
@@ -118,11 +113,11 @@ const registerUser = (req, res) => {
 
 const loginDocent = (req, res) => {
   if (!req.body) {
-    console.log(req);
+    // console.log(req);
   }
 
-  const username = req.session.username;
-
+  const username = req.body.username;
+  const password = req.body.password;
 
 connection.query(
   "SELECT user_pass FROM account WHERE user_name = ? AND permissions = ?",
@@ -145,6 +140,7 @@ connection.query(
         } else if (result === true) {
           // Passwords match, user is authenticated
           req.session.username = username;
+          req.session.perms = 'docent';
           res.json({ success: "success" });
           res.end();
         } else {

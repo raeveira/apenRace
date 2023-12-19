@@ -79,8 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
   //===========================Login Docent==========================\\
   loginformDocent.addEventListener("submit", (e) => {
       e.preventDefault();
-      let username = document.getElementsByName("usernameDocent")[0].value;
-      let password = document.getElementsByName("password")[0].value;
+
+      const username = document.getElementsByName("usernameDocent")[0].value;
+      const password = document.getElementById("docentenWachtwoord").value;
 
       // Create an object to send as JSON
       let data = {
@@ -116,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("verkeerd wachtwoord");
             console.log(xhr.status);
             console.log(xhr.response);
-            console.log(xhr.responseText);
             //error message not logged in.
           }
         }

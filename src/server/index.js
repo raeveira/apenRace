@@ -84,6 +84,17 @@ app.get("/home", (req, res) => {
   }
 });
 
+app.get("/docent", (req, res) => {
+  // Check if the user is logged in
+  if (req.session.perms == 'docent') {
+    // Render the user's profile page with their username
+    res.sendFile(path.resolve(__dirname, "../client/docent.html"));
+  } else {
+    // Redirect to the login page or show an error message
+    res.redirect("/");
+  }
+});
+
 app.get("/game", (req, res) => {
   // Check if the user is logged in
   if (req.session.username) {
