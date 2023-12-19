@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //===========================Login Docent==========================\\
   loginformDocent.addEventListener("submit", (e) => {
       e.preventDefault();
+
       const username = document.getElementsByName("usernameDocent")[0].value;
       const password = document.getElementById("docentenWachtwoord").value;
 
