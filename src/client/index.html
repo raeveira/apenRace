@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>Apen Race</title>
-    <link rel="stylesheet" type="text/css" href="public\style.css" />
-    <link rel="stylesheet" type="text/css" href="src\client\style.css" />
-    <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/public/style.css" />
+    <link rel="stylesheet" type="text/css" href="/src/client/style.css" />
+    <link rel="icon" type="image/x-icon" href="public/images/favicon.ico" />
   </head>
   <body>
     <div class="login">
@@ -37,6 +37,9 @@
           </p>
           <p class="form__text">
             <a class="form__link" href="./" id="linkCreateAccount">Don't have an account? Create account</a>
+          </p>
+          <p class="form__text">
+            <a class="form__link" href="./" id="linkCreateAccountDocent">Teacher or Admin? Login!</a>
           </p>
         </form>
         <form class="form form--hidden" id="createAccount">
@@ -89,6 +92,84 @@
         </form>
       </div>
     </div>
+    <div id="keuzemenuDocenten" class="kmdClass form--hidden">
+      <p class="kmd_text">Als wie wilt u inloggen?</p>
+      <div id="kmd_DocentInloggen" class="kmd_hover">
+        <p class="kmd_textDocent">Docent</p>
+      </div>
+      <div id="kmd_AdminInloggen" class="kmd_hover">
+        <p class="kmd_textAdmin">Admin</p>
+      </div>
+      <p class="kmd_linkGoBack">
+        <a class="form__link" href="./" id="linkGoBack">Go Back!</a>
+      </p>
+    </div>
+
+    <!-- ============================= Docent inlogpage ============================= -->
+    <form class="form form--hidden" method="POST" id="loginDocent">
+      <h1 class="form__title">Docent Login</h1>
+      <div class="form__message form__message--error"></div>
+      <div class="form__input-group">
+        <input
+          name="usernameDocent"
+          type="text"
+          class="form__input"
+          autofocus
+          placeholder="Username"
+        />
+        <div class="form__input-error-message"></div>
+      </div>
+      <div class="form__input-group">
+        <input
+          id="docentenWachtwoord"
+          name="password"
+          type="password"
+          class="form__input"
+          placeholder="Password"
+        />
+        <div class="form__input-error-message"></div>
+      </div>
+      <button class="form__button" type="submit">Continue</button>
+      <p class="form__text">
+        <a href="#" class="form__link">Forgot your password?</a>
+      </p>
+      <p class="form__text">
+      <a class="form__link" href="./" id="linkGoBack">Go Back!</a>
+      </p>
+    </form>
+
+<!--============================= Admin inlogpage =============================-->
+      <form class="form form--hidden" method="POST" id="loginAdmin">
+        <h1 class="form__title">Admin Login</h1>
+        <div class="form__message form__message--error"></div>
+        <div class="form__input-group">
+          <input
+            name="username"
+            type="text"
+            class="form__input"
+            autofocus
+            placeholder="Username"
+          />
+          <div class="form__input-error-message"></div>
+        </div>
+        <div class="form__input-group">
+          <input
+            name="password"
+            type="password"
+            class="form__input"
+            placeholder="Password"
+          />
+          <div class="form__input-error-message"></div>
+        </div>
+        <button class="form__button" type="submit">Continue</button>
+        <p class="form__text">
+          <a href="#" class="form__link">Forgot your password?</a>
+        </p>
+        <p class="form__text">
+        <a class="form__link" href="./" id="linkGoBack">Go Back!</a>
+        </p>
+      </form>
     <script src="js/main.js"></script>
+    <!-- <script src="keuzemenu.js"></script> -->
   </body>
 </html>
