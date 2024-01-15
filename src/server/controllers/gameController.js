@@ -12,8 +12,8 @@ class GameManager {
 
   // Function to store lobby data
   storeData(lobbyData) {
-    // console.log(lobbyData);
-    dataStorage.storeData(lobbyData); // Use the data storage module to store data
+    // Use the data storage module to store data
+    dataStorage.storeData(lobbyData);
   }
 
   submitAnswer(data) {
@@ -69,6 +69,125 @@ class GameManager {
     });
   }
 
+  async finished(username, data) {
+    const lobbyData = dataStorage.retrieveData();
+    console.log(lobbyData);
+    console.log("score: ", data.score);
+
+    if (Array.isArray(lobbyData.players)) {
+      console.log("Searching for user:", username);
+      console.log(
+        "Usernames in lobbyData:",
+        lobbyData.players.map((user) => user.username)
+      );
+
+      const userToUpdate = lobbyData.players.find(
+        (user) => user.username === username
+      );
+
+      if (userToUpdate) {
+        // Update the 'finished' property if it exists, or create it if not
+        userToUpdate.finished = data.finish;
+        userToUpdate.score = data.score;
+
+        // Check if every user has finished
+        const allUsersFinished = lobbyData.players.every(
+          (user) => user.finished
+        );
+
+        if (allUsersFinished) {
+          // Sort players based on the score in descending order
+          const sortedPlayers = lobbyData.players.sort(
+            (a, b) => b.score - a.score
+          );
+          console.log("sortedplayers:", sortedPlayers);
+          // Extract the top 3 players
+          const top3Players = sortedPlayers.slice(
+            0,
+            Math.min(sortedPlayers.length, 3)
+          );
+          console.log("top3players; ", top3Players);
+
+          // Emit top3Players event to all connected sockets
+          const top3Usernames = top3Players.map((player) => player.username);
+
+          // Ensure top3Usernames always has three usernames
+          while (top3Usernames.length < 3) {
+            top3Usernames.push("NaN");
+            top3Usernames.push("NaN");
+          }
+          let winPoint = 0;
+          let topUsername;
+          console.log("top3Usernames:", top3Usernames);
+          // Assign points based on position (1st, 2nd, 3rd)
+          for (let index = 0; index < 3; index++) {
+            switch (index) {
+              case 0:
+                winPoint = 3;
+                break;
+              case 1:
+                winPoint = 2;
+                break;
+              case 2:
+                winPoint = 1;
+                break;
+              default:
+                winPoint = 0;
+                break;
+            }
+
+            console.log("username:", top3Usernames[index], "wins:", winPoint);
+            try {
+              topUsername = top3Usernames[index];
+              console.log(topUsername);
+              const response = await fetch("http://localhost:3000/leaderboard/save-leaderboard", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  username: topUsername,
+                  wins: winPoint,
+                }),
+              });
+            
+              // Check if the response has a JSON content type
+              const contentType = response.headers.get("content-type");
+            
+              if (contentType && contentType.includes("application/json")) {
+                const responseData = await response.json();
+                console.log(
+                  `Points updated successfully for ${top3Usernames[index]}. New points: ${responseData.wins}`
+                );
+              } else {
+                // Handle non-JSON response (e.g., plain text)
+                const responseText = await response.text();
+                console.log(`Non-JSON response: ${responseText}`);
+            
+                // You can add custom logic to handle plain text responses here
+              }
+            } catch (error) {
+              console.error(`Error updating points for ${top3Usernames[index]}:`, error);
+            }
+          }
+
+          this.connectedSockets.forEach(socket => {
+            socket.emit("top3Players", { top3: top3Usernames });
+          });
+          this.connectedSockets.forEach((socket) => {
+            socket.emit("finished", { finished: true });
+          });
+        }
+        // Save the updated lobbyData
+        dataStorage.storeData(lobbyData);
+      } else {
+        console.error("User not found in lobbyData:", username);
+      }
+    } else {
+      console.error("Invalid lobbyData format:", lobbyData);
+    }
+  }
+
   async progress(data) {
     try {
       let progress = data.progress;
@@ -81,14 +200,14 @@ class GameManager {
       if (data.pg == true) {
         // Retrieve profile photo using the asynchronous getProfilePhoto function
         const profilePhoto = await this.getProfilePhoto(username);
-
-        // Now you can use the profilePhoto in the rest of your code
+        const firstLetter = username.charAt(0).toUpperCase();
 
         if (!Array.isArray(lobbyData.players)) {
           console.error(
             "Invalid lobbyData format - 'players' is not an array:",
             lobbyData.players
           );
+          console.log(lobbyData);
           return;
         } else {
           for (const playerData of lobbyData.players) {
@@ -98,6 +217,7 @@ class GameManager {
               if (playerSocket) {
                 playerSocket.broadcast.emit("userIndex", {
                   userPhoto: profilePhoto,
+                  firstLetter: firstLetter,
                   user: username,
                   index: questionIndex,
                   progress: progress,
@@ -105,6 +225,7 @@ class GameManager {
 
                 playerSocket.emit("persUserIndex", {
                   userPhoto: profilePhoto,
+                  firstLetter: firstLetter,
                   user: username,
                   index: questionIndex,
                   progress: progress,

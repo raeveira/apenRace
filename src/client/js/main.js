@@ -1,5 +1,3 @@
-
-
 function setFormMessage(formElement, type, message) {
   const messageElement = formElement.querySelector(".form__message");
 
@@ -24,24 +22,10 @@ function clearInputError(inputElement) {
     ".form__input-error-message"
   ).textContent = "";
 }
-//yo igor van morgen hier is de switches van code inlogpagina naar create acc
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginform = document.querySelector("#login");
   const createAccountForm = document.querySelector("#createAccount");
-  const keuzemenuDocenten = document.querySelector("#keuzemenuDocenten");
-  const container = document.querySelector(".container");
-  const loginformDocent = document.querySelector("#loginDocent");
-  const loginformAdmin = document.querySelector("#loginAdmin");
-  const keuzeMenu = document.querySelector("#keuzemenuDocenten");
-
-  document
-  .querySelector("#linkCreateAccountDocent")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    container.classList.remove("container");
-    loginform.classList.add("form--hidden");
-    keuzemenuDocenten.classList.remove("form--hidden");
-  });
 
   document
     .querySelector("#linkCreateAccount")
@@ -211,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send(JSON.stringify(data));
   });
-  
+
   document.querySelectorAll(".form__input").forEach((inputElement) => {
     inputElement.addEventListener("blur", (e) => {
       if (
@@ -235,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInputError(inputElement);
     });
   });
+});
 
 document.querySelector("#createAccount").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -305,5 +290,4 @@ document.querySelector("#createAccount").addEventListener("submit", (e) => {
   };
 
   xhr.send(JSON.stringify(data));
-});
 });

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title id="pageTitle">Apen Race</title>
-    <link rel="stylesheet" type="text/css" href="/public\style.css" />
+    <link rel="stylesheet" type="text/css" href="public\style.css" />
     <link rel="stylesheet" type="text/css" href="/src/client/style.css" />
     <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
     <script
@@ -70,14 +70,22 @@
     </div>
 
     <!-- finished game -->
-    <div id="finishedGamePopup">
+    <div id="waitingGamePopup">
       <div id="endDisplay">
         Je hebt het einde bereikt!! <br />
-        Ga terug naar de home pagina om opnieuw te spelen.
+        Wacht tot alle spelers klaar zijn met het spel.
       </div>
-      <button id="endButton" class="return">
-        <i class="fa-solid fa-x"></i>
-      </button>
+    </div>
+
+    <div id="finishedGamePopup">
+      <div id="endDisplay">
+        <div id="top3Players"></div> <br />
+        elke speler is nu klaar met het spel. <br />
+        je kunt nu terug gaan naar de lobby. <br />
+        <button id="endButton" class="return">
+          Klik hier om terug te gaan.
+        </button>
+      </div>
     </div>
 
     <!-- somveld -->
