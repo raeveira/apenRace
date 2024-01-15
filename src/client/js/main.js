@@ -1,5 +1,3 @@
-
-
 function setFormMessage(formElement, type, message) {
   const messageElement = formElement.querySelector(".form__message");
 
@@ -24,24 +22,10 @@ function clearInputError(inputElement) {
     ".form__input-error-message"
   ).textContent = "";
 }
-//yo igor van morgen hier is de switches van code inlogpagina naar create acc
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginform = document.querySelector("#login");
   const createAccountForm = document.querySelector("#createAccount");
-  const keuzemenuDocenten = document.querySelector("#keuzemenuDocenten");
-  const container = document.querySelector(".container");
-  const loginformDocent = document.querySelector("#loginDocent");
-  const loginformAdmin = document.querySelector("#loginAdmin");
-  const keuzeMenu = document.querySelector("#keuzemenuDocenten");
-
-  document
-  .querySelector("#linkCreateAccountDocent")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    container.classList.remove("container");
-    loginform.classList.add("form--hidden");
-    keuzemenuDocenten.classList.remove("form--hidden");
-  });
 
   document
     .querySelector("#linkCreateAccount")
@@ -58,119 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createAccountForm.classList.add("form--hidden");
   });
 
-  document
-  .querySelector("#kmd_DocentInloggen")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    //loginformAdmin.classList.add("form--hidden");
-    loginformDocent.classList.remove("form--hidden");
-    keuzeMenu.classList.add("form--hidden");
-  });
-  
-  document
-  .querySelector("#kmd_AdminInloggen")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    loginformAdmin.classList.remove("form--hidden");
-    loginformDocent.classList.add("form--hidden");
-    keuzeMenu.classList.add("form--hidden");
-  });
- try {
-  //===========================Login Docent==========================\\
-  loginformDocent.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = document.getElementsByName("usernameDocent")[0].value;
-      const password = document.getElementById("docentenWachtwoord").value;
-
-      // Create an object to send as JSON
-      let data = {
-        username: username,
-        password: password,
-      };
-
-      // Perform AJAX/Fetch login
-   
-
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", "/auth/loginDocent");
-      // set the request header for JSON data
-      xhr.setRequestHeader("Content-Type", "application/json");
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          // console.log(xhr.status);
-          // console.log(xhr.responseText);
-
-          // Parse the response JSON
-          const response = JSON.parse(xhr.responseText);
-
-          if (xhr.status === 200 && response.success === "success") {
-            // Redirect the user to the home page
-            window.location.href = "/docent"; // Change this URL to your desired redirection URL
-            console.log("ik ben hier gekomen");
-            console.log(xhr.status);
-          }
-          if (xhr.status === 200 && response.error === "login-invalid") {
-            // Redirect the user to the home page
-            window.location.href = "/"; // Change this URL to your desired redirection URL
-            console.log("verkeerd wachtwoord");
-            console.log(xhr.status);
-            console.log(xhr.response);
-            //error message not logged in.
-          }
-        }
-      };
-
-      xhr.send(JSON.stringify(data));
-    });
-}
-
-  catch(err) {
-    console.log(err);
-  }
-
-  //============================Login Admin==========================\\
-  loginformAdmin.addEventListener("submit", (e) => { 
-    e.preventDefault();
-    let username = document.getElementsByName("username")[0].value;
-    let password = document.getElementsByName("password")[0].value;
-
-    // Create an object to send as JSON
-    let data = {
-      username: username,
-      password: password,
-    };
-
-    // Perform AJAX/Fetch login
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/auth/login");
-    // set the request header for JSON data
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        // console.log(xhr.status);
-        // console.log(xhr.responseText);
-
-        // Parse the response JSON
-        const response = JSON.parse(xhr.responseText);
-
-        if (xhr.status === 200 && response.success === "success") {
-          // Redirect the user to the home page
-          window.location.href = "/home"; // Change this URL to your desired redirection URL
-        }
-        if (xhr.status === 200 && response.error === "login-invalid") {
-          // Redirect the user to the home page
-          window.location.href = "/"; // Change this URL to your desired redirection URL
-          //error message not logged in.
-        }
-      }
-    };
-
-    xhr.send(JSON.stringify(data));
-  });
-  
-  //==============================login User==========================\\
   loginform.addEventListener("submit", (e) => {
     e.preventDefault();
     let username = document.getElementsByName("username")[0].value;
@@ -210,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send(JSON.stringify(data));
   });
-  
+
   document.querySelectorAll(".form__input").forEach((inputElement) => {
     inputElement.addEventListener("blur", (e) => {
       if (
@@ -234,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInputError(inputElement);
     });
   });
+});
 
 document.querySelector("#createAccount").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -304,5 +176,4 @@ document.querySelector("#createAccount").addEventListener("submit", (e) => {
   };
 
   xhr.send(JSON.stringify(data));
-});
 });

@@ -84,17 +84,6 @@ app.get("/home", (req, res) => {
   }
 });
 
-app.get("/docent", (req, res) => {
-  // Check if the user is logged in
-  if (req.session.perms == 'docent') {
-    // Render the user's profile page with their username
-    res.sendFile(path.resolve(__dirname, "../client/docent.html"));
-  } else {
-    // Redirect to the login page or show an error message
-    res.redirect("/");
-  }
-});
-
 app.get("/game", (req, res) => {
   // Check if the user is logged in
   if (req.session.username) {
@@ -140,6 +129,11 @@ io.on("connection", (socket) => {
 
   socket.on("submitAnswer", (data) => {
     gameManager.submitAnswer(data, socket);
+  });
+
+  socket.on("finished", (data) => {
+    const username = socket.request.session.username;
+    gameManager.finished(username, data, socket);
   });
 
   socket.on("progress", (data) => {

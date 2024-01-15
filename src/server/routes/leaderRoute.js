@@ -6,8 +6,7 @@ const leaderController = require('../controllers/leaderController');
 
 // Save the selected difficulty preference for the logged-in user
 router.post('/save-leaderboard', (req, res) => {
-  const username = req.session.username; // Using the username from the session
-  const { wins } = req.body;
+  const { username, wins } = req.body;
 
   leaderController.saveLeaderPreference(username, wins);
 

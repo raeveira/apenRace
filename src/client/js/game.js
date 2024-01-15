@@ -71,21 +71,12 @@ function displayQuestion() {
     // All questions answered
     questionElement.textContent = "";
     answerInput.style.display = "none";
-    finishedGamePopup.style.display = "block";
+    waitingGamePopup.style.display = "block";
+    socket.emit("finished", {
+      finish: true,
+      score: score,
+    });
     // submitButton.style.display = "none";
-
-    if (score === 20) {
-      let winPoint = 0;
-      winPoint++;
-      // console.log(winPoint);
-      fetch("/leaderboard/save-leaderboard", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ wins: winPoint }),
-      });
-    }
   }
 }
 
@@ -166,6 +157,33 @@ document.addEventListener("DOMContentLoaded", () => {
   let personalUserIndex, personalUserScore;
   const userScores = {}; // Dictionary to store user scores
 
+  // Listen for the "persoFinished" event
+  socket.on("finished", (data) => {
+    console.log("Your player has finished:", data.finished);
+    waitingGamePopup.style.display = "none";
+    finishedGamePopup.style.display = "block";
+  });
+
+  // Listen for the "top3Players" event
+  socket.on("top3Players", (data) => {
+    console.log("Received top3Players event", data);
+
+    const top3Usernames = data.top3;
+
+    // Create an array of colors corresponding to the top 3 players
+    const colors = ["gold", "silver", "brown"];
+
+    // Update the UI with colored usernames on separate lines with numbers
+    const formattedTop3 = top3Usernames.map((username, index) => {
+      const color = colors[index] || "white"; // Fallback to white if more than 3 players
+      return `<div style="color:${color}">${index + 1}. ${username}</div>`;
+    });
+
+    document.getElementById(
+      "top3Players"
+    ).innerHTML = `Top 3 Players:<br><br>${formattedTop3.join("")}`;
+  });
+
   socket.on("userIndex", (data) => {
     const gameScoreBoard = document.getElementById("gameScoreBoard");
     gameScoreBoard.style.display = "grid";
@@ -201,7 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
         (1 - multiUserScoreIndex / totalScore) * correctedHeight;
       multiProfilePhoto.style.top = profilePhotoPosition + "px";
 
+      const altText = String(data.firstLetter);
+
       multiProfilePhoto.src = data.userPhoto;
+      multiProfilePhoto.alt = altText;
       usernameScore.textContent = progress;
       usernameIndex.textContent = multiUserIndex;
 
@@ -215,6 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
   socket.on("persUserIndex", (data) => {
     const profilePhoto = document.getElementById("profilePhoto");
     profilePhoto.style.display = "inline-block";
+    const altText = String(data.firstLetter);
+    profilePhoto.alt = altText;
     const profilePhotoPath = data.userPhoto;
     personalUserIndex = data.user;
     personalUserScore = data.index;
