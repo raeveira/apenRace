@@ -113,8 +113,8 @@ class GameManager {
 
           // Ensure top3Usernames always has three usernames
           while (top3Usernames.length < 3) {
-            top3Usernames.push("test1");
-            top3Usernames.push("test2");
+            top3Usernames.push("NaN");
+            top3Usernames.push("NaN");
           }
           let winPoint = 0;
           let topUsername;
