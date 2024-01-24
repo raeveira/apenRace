@@ -42,120 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createAccountForm.classList.add("form--hidden");
   });
 
-  document
-  .querySelector("#kmd_DocentInloggen")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    //loginformAdmin.classList.add("form--hidden");
-    loginformDocent.classList.remove("form--hidden");
-    keuzeMenu.classList.add("form--hidden");
-  });
-  
-  document
-  .querySelector("#kmd_AdminInloggen")
-  .addEventListener('click', (e) => {
-    e.preventDefault();
-    loginformAdmin.classList.remove("form--hidden");
-    loginformDocent.classList.add("form--hidden");
-    keuzeMenu.classList.add("form--hidden");
-  });
- try {
-  //===========================Login Docent==========================\\
-  loginformDocent.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const username = document.getElementsByName("usernameDocent")[0].value;
-      const password = document.getElementById("docentenWachtwoord").value;
-
-      // Create an object to send as JSON
-      let data = {
-        username: username,
-        password: password,
-      };
-
-      // Perform AJAX/Fetch login
-   
-
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", "/auth/loginDocent");
-      // set the request header for JSON data
-      xhr.setRequestHeader("Content-Type", "application/json");
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          // console.log(xhr.status);
-          // console.log(xhr.responseText);
-
-          // Parse the response JSON
-          const response = JSON.parse(xhr.responseText);
-
-          if (xhr.status === 200 && response.success === "success") {
-            // Redirect the user to the home page
-            window.location.href = "/docent"; // Change this URL to your desired redirection URL
-            console.log("ik ben hier gekomen");
-            console.log(xhr.status);
-          }
-          if (xhr.status === 200 && response.error === "login-invalid") {
-            // Redirect the user to the home page
-            window.location.href = "/"; // Change this URL to your desired redirection URL
-            console.log("verkeerd wachtwoord");
-            console.log(xhr.status);
-            console.log(xhr.response);
-            //error message not logged in.
-          }
-        }
-      };
-
-      xhr.send(JSON.stringify(data));
-    });
-}
-
-  catch(err) {
-    console.log(err);
-  }
-
-  //============================Login Admin==========================\\
-  loginformAdmin.addEventListener("submit", (e) => { 
-    e.preventDefault();
-    let username = document.getElementsByName("username")[0].value;
-    let password = document.getElementsByName("password")[0].value;
-
-    // Create an object to send as JSON
-    let data = {
-      username: username,
-      password: password,
-    };
-
-    // Perform AJAX/Fetch login
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/auth/login");
-    // set the request header for JSON data
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        // console.log(xhr.status);
-        // console.log(xhr.responseText);
-
-        // Parse the response JSON
-        const response = JSON.parse(xhr.responseText);
-
-        if (xhr.status === 200 && response.success === "success") {
-          // Redirect the user to the home page
-          window.location.href = "/home"; // Change this URL to your desired redirection URL
-        }
-        if (xhr.status === 200 && response.error === "login-invalid") {
-          // Redirect the user to the home page
-          window.location.href = "/"; // Change this URL to your desired redirection URL
-          //error message not logged in.
-        }
-      }
-    };
-
-    xhr.send(JSON.stringify(data));
-  });
-  
-  //==============================login User==========================\\
   loginform.addEventListener("submit", (e) => {
     e.preventDefault();
     let username = document.getElementsByName("username")[0].value;
@@ -181,9 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // Parse the response JSON
         const response = JSON.parse(xhr.responseText);
 
-        if (xhr.status === 200 && response.success === "success") {
+        if (xhr.status === 200 && response.success === "success-lln") {
           // Redirect the user to the home page
           window.location.href = "/home"; // Change this URL to your desired redirection URL
+        }
+        if (xhr.status === 200 && response.success === "success-dct") {
+          // Redirect the user to the home page
+          window.location.href = "/docent"; // Change this URL to your desired redirection URL
+        }
+        if (xhr.status === 200 && response.success === "success-adm") {
+          // Redirect the user to the home page
+          window.location.href = "/admin"; // Change this URL to your desired redirection URL
         }
         if (xhr.status === 200 && response.error === "login-invalid") {
           // Redirect the user to the home page
@@ -225,7 +119,9 @@ document.querySelector("#createAccount").addEventListener("submit", (e) => {
   e.preventDefault();
 
   // Get input values
+  const fullname = document.getElementById("fullname").value;
   const username = document.getElementById("signupUsername").value;
+  //const klas = document.getElementById("klas").value;
   const email = document.getElementById("signupEmail").value;
   const password = document.getElementById("signupPassword").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
@@ -242,6 +138,7 @@ document.querySelector("#createAccount").addEventListener("submit", (e) => {
 
   // Create an object to send as JSON
   const data = {
+    fullname: fullname,
     username: username,
     email: email,
     password: password,

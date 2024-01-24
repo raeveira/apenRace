@@ -9,6 +9,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "express-session": "^1.17.3",
+    "live-server": "^1.2.2",
     "mysql": "^2.18.1",
     "socket.io": "^4.1.2"
   },

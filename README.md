@@ -1,44 +1,28 @@
-# Apen race
 
-official edit by:
-Dylan, Jelte, Mohammed and Igor
-#
+# Voorgeinstalleerde modules:
+- Node
+- Een Database
 
-Om difficulties toe te voegen maak nieuw json bestand aan (bijvoorbeeld: plus.json)
-gebruik de volgende formaat:
+# Database setup:
+- in phpmyadmin van de database import de ".sql" file en dit zal de benodige database aanmaken
+- daarna in de code gaat u naar de folder /src/server/ en opent u de .env file hierin zit alle configuratie van de  database connectie.
+- zodra u in de .env file zit veranderd u het ip-adres(DB_HOST) van de database en de gebruikersAccount en Wachtwoord van dat account.(DB_USER en DB_PASSWORD), de rest moet hetzelfde blijven.
 
-[
-  {
-    "questions" : "vraag hier"
-    "answer" : "antwoord hier"
-  },
-  {
-    "questions" : "vraag hier"
-    "answer" : "antwoord hier"
-  }
-]
+# Installation Guide:
+Stap 1;
+- Open het project in VSCODE.
 
-in home.html
-ga naar lijn 161
-voeg een option toe ( <option id="plus" value="plus">Plus sommen</option> )
-nu heeft u successvol een optie toe gevoegd;
+Stap 2;
+- Open een Terminal
 
-om de taal daarvan ook nog goed te hebben ga naar language.js
-voeg een lijn onderaan de const query
-const plus = document.getElementById("plus");
-onderaan de if query voeg een lijn aan:
+Stap 3;
+- doe de command: "npm install" dit gaat alle benodigde items installeren.
 
-        if (plus) {
-          plus.textContent = data.plus;
-        }
+stap 4;
+- doe de command: "npm fund" dit geeft alle items de benodigde bronnen.
 
-ga daarna naar alle talen toe
-(in de folder /server/languages)
-daar heeft u meerdere talen in zitten wij pakken voor het voorbeeld nederlands;
-u klikt dan op nl.json,
-voeg de volgende lijn toe in het volgende formaat:
+stap 5;
+- volg database setup;
 
-"plus": "Plus sommen"
-
-het eerste is de data.plus wat u bij vorige stap hebt gezet het tweede is wat de gebruikers gaan zien.
-dit doet u bij elke taal zodat iedereen in elke verschillende taal kunt zien dat het plus sommen zijn.
+stap 6;
+- doe de command: "npm start /src/server/index.js" dit gaat de applicatie starten. (De applicatie wilt crashen als de database niet aanstaat.)

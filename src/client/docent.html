@@ -1,18 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/client/style.css">
-    <title>Document</title>
-</head>
-<body class="docenten">
-    <nav class="docenten_nav">
-        <div class="nav_links">
-            <div class="nl_item" id="nl_logedIn_msg">Logged in as:</div>
-            <div class="nl_item" id="nl_klasDropdown">klas:</div>
-            <div class="nl_item" id="logOut">Logout</div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="public\style.css" />
+    <link rel="stylesheet" type="text/css" href="/src/client/style.css" />
+    <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
+    <title>ApenRace - Docent</title>
+  </head>
+  <body class="docentenBodyBody">
+    <nav class="docentenNav">
+      <div id="title" class="nav_links">Gilde opleidingen</div>
+      <div id="klas" class="nav_links">Klassen</div>
+      <div id="uitloggen" class="nav_links logout-button">uitloggen</div>
     </nav>
-</body>
+    <div id="homePageDiv" class="body_docenten">
+      <div>
+        <p class="docentTitle">Welkom <span id="docentenNaam">Docent</span></p>
+        <div id="createStudentAccount">
+          <form class="formInvoegen" id="createAccount">
+            <h1 class="formInvoegen_title">Creëer Leerlingen Account</h1>
+            <div class="formInvoegen_error"></div>
+            <div class="form__message form__message--error"></div>
+            <div class="formInvoegen_invoegen">
+              <input
+                class="input_invoegen"
+                type="text"
+                class="form__input"
+                id="fullname"
+                name="fullname"
+                autofocus
+                required
+                placeholder="Volledige naam"
+              />
+              <div class="formInvoegen_error"></div>
+              <input
+                class="input_invoegen"
+                type="text"
+                class="form__input"
+                id="signupUsername"
+                name="username"
+                required
+                placeholder="Gebruikersnaam"
+              />
+              <div class="formInvoegen_error"></div>
+              <input
+                class="input_invoegen"
+                type="text"
+                class="form__input"
+                id="signUpKlas"
+                name="klas"
+                required
+                placeholder="Klas bijv: 1, 2, 3, 4 of 5"
+              />
+              <div class="formInvoegen_error"></div>
+              <input
+                class="input_invoegen"
+                type="email"
+                class="form__input"
+                id="signupEmail"
+                name="email"
+                autofocus
+                required
+                placeholder="Email Adres"
+              />
+              <div class="formInvoegen_error"></div>
+
+              <!-- <div class="form_input_invoeg"> -->
+              <input
+                class="input_invoegen"
+                type="password"
+                class="form__input"
+                id="signupPassword"
+                name="password"
+                autofocus
+                required
+                placeholder="Wachtwoord"
+              />
+              <div class="formInvoegen_error"></div>
+              <!-- <div class="form_input_invoeg"> -->
+              <input
+                class="input_invoegen"
+                type="password"
+                class="form__input"
+                id="confirmPassword"
+                autofocus
+                required
+                placeholder="Bevestig Wachtwoord"
+              />
+              <div class="formInvoegen_error"></div>
+
+              <button class="formInvoegen__button" type="submit">
+                Maak account
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="leerlingDiv">
+      <p class="docentTitle">Alle leerlingen:</p>
+      <table class="leerlingTable" id="leerlingTable1">
+        <tr>
+          <th>Klas 1:</th>
+          <th>Volledige naam</th>
+          <th>gebruikersnaam</th>
+          <th>email</th>
+          <th>taal</th>
+          <th>moeilijkheidsgraad</th>
+          <th>permissies</th>
+        </tr>
+      </table>
+      <table class="leerlingTable" id="leerlingTable2">
+        <tr>
+          <th>Klas 2:</th>
+          <th>Volledige naam</th>
+          <th>gebruikersnaam</th>
+          <th>email</th>
+          <th>taal</th>
+          <th>moeilijkheidsgraad</th>
+          <th>permissies</th>
+        </tr>
+      </table>
+      <table class="leerlingTable" id="leerlingTable3">
+        <tr>
+          <th>Klas 3:</th>
+          <th>Volledige naam</th>
+          <th>gebruikersnaam</th>
+          <th>email</th>
+          <th>taal</th>
+          <th>moeilijkheidsgraad</th>
+          <th>permissies</th>
+        </tr>
+      </table>
+      <table class="leerlingTable" id="leerlingTable4">
+        <tr>
+          <th>Klas 4:</th>
+          <th>Volledige naam</th>
+          <th>gebruikersnaam</th>
+          <th>email</th>
+          <th>taal</th>
+          <th>moeilijkheidsgraad</th>
+          <th>permissies</th>
+        </tr>
+      </table>
+      <table class="leerlingTable" id="leerlingTable5">
+        <tr>
+          <th>Klas 5:</th>
+          <th>Volledige naam</th>
+          <th>gebruikersnaam</th>
+          <th>email</th>
+          <th>taal</th>
+          <th>moeilijkheidsgraad</th>
+          <th>permissies</th>
+        </tr>
+      </table>
+    </div>
+    <div class="grid_body_games">
+      <div id="1" class="grid_games"></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/src/client/js/docent.js"></script>
+    <script src="/src/client/js/logout.js"></script>
+    <script src="js/docentMain.js"></script>
+  </body>
 </html>

@@ -1,7 +1,6 @@
 // const loadDifficulty= require("/difficulty/loadDifficulty");
 document.addEventListener("DOMContentLoaded", function () {
   const difficultySelector = document.getElementById("difficultySelector");
-  const selectedDifficulty = difficultySelector.value;
   let userDifficulty; // Declare userDifficulty variable outside of the fetch callback
 
   // console.log("Script loaded."); // Check if the script is loaded

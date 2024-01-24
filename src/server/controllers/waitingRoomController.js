@@ -154,7 +154,6 @@ class WaitingRoomManager {
             stayVotes: totalStayVotes,
             playerCount: lobby.players.length,
           });
-
           // Check if the lobby is empty
           if (lobby.players.length === 0) {
             // Reset the timer and void all votes

@@ -3,7 +3,7 @@ const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require("express");
 const session = require("express-session");
-const app = express();
+const app = express(); 
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
@@ -11,6 +11,7 @@ const io = require("socket.io")(http);
 const port = process.env.PORT || 3000;
 const WaitingRoomManager = require("./controllers/waitingRoomController"); // Import the WaitingRoomManager class
 const { GameManager } = require("./controllers/gameController");
+const Klas = require('./controllers/classController.js');
 // Create an instance of WaitingRoomManager
 const waitingRoomManager = new WaitingRoomManager();
 // Create a session store using express-session
@@ -75,7 +76,7 @@ app.get("/difficulty/:diff", (req, res) => {
 
 app.get("/home", (req, res) => {
   // Check if the user is logged in
-  if (req.session.username) {
+  if (req.session.username && req.session.permission == "student") {
     // Render the user's profile page with their username
     res.sendFile(path.resolve(__dirname, "../client/home.html"));
   } else {
@@ -84,9 +85,31 @@ app.get("/home", (req, res) => {
   }
 });
 
+app.get("/docent", (req, res) => {
+  // Check if the user is logged in
+  if (req.session.username && req.session.permission == "docent") {
+    // Render the user's profile page with their username
+    res.sendFile(path.resolve(__dirname, "../client/docent.html"));
+  } else {
+    // Redirect to the login page or show an error message
+    res.redirect("/");
+  }
+});
+
+app.get("/admin", (req, res) => {
+  // Check if the user is logged in
+  if (req.session.username && req.session.permission == "admin") {
+    // Render the user's profile page with their username
+    res.sendFile(path.resolve(__dirname, "../client/admin.html"));
+  } else {
+    // Redirect to the login page or show an error message
+    res.redirect("/");
+  }
+});
+
 app.get("/game", (req, res) => {
   // Check if the user is logged in
-  if (req.session.username) {
+  if (req.session.username && req.session.permission == "student") {
     // Render the user's profile page with their username
     res.sendFile(path.resolve(__dirname, "../client/game.html"));
   } else {
@@ -121,6 +144,41 @@ io.on("connection", (socket) => {
   connectedSockets.set(socket.id, socket);
 
   const gameManager = new GameManager(socket, io, connectedSockets);
+
+
+  socket.on('getClass', async () => {
+    const username = socket.request.session.username;
+    const klasInstance = new Klas(username);
+
+    try {
+      const userClasses = await klasInstance.getClass(username);
+      const usersInSameClass = await klasInstance.getUsersInSameClass();
+
+      // Emit the information to the client
+      socket.emit('classInfo', {
+        userClasses: userClasses,
+        usersInSameClass: usersInSameClass,
+      });
+    } catch (error) {
+      console.error('Error fetching class information:', error);
+    }
+  });
+
+  socket.on('getDocent', async () => {
+    const username = socket.request.session.username;
+    const klasInstance = new Klas(username);
+
+    try {
+      const docentClass = await klasInstance.getDocent();
+
+      // Emit the information to the client
+      socket.emit('classDocentInfo', {
+        docenten: docentClass,
+      });
+    } catch (error) {
+      console.error('Error fetching class information:', error);
+    }
+  });
 
   socket.on("lobbyData", (data) => {
     // console.log("Received lobbyData from client: ", data);
@@ -160,12 +218,12 @@ io.on("connection", (socket) => {
   });
 
   // Handle user disconnections
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (req) => {
     waitingRoomManager.handleDisconnect(socket, io);
   });
 
   // Handle user leaving queue
-  socket.on("disconnectFromQueue", () => {
+  socket.on("disconnectFromQueue", (req) => {
     waitingRoomManager.handleDisconnect(socket, io);
   });
 

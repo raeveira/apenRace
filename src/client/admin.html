@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="public\style.css" />
+    <link rel="stylesheet" type="text/css" href="/src/client/style.css" />
+    <link rel="icon" type="image/x-icon" href="public\images\favicon.ico" />
+    <title>ApenRace - Admin</title>
+  </head>
+  <body class="docentenBodyBody">
+    <nav class="docentenNav">
+      <div id="title" class="nav_links">Gilde opleidingen</div>
+      <div id="klas" class="nav_links">Klassen</div>
+      <div id="docent" class="nav_links">Docenten</div>
+      <div id="uitloggen" class="nav_links logout-button">uitloggen</div>
+    </nav>
+    <div class="body_docenten">
+      <div id="homePageDiv">
+        <p class="docentTitle">hoi</p>
+      </div>
+      <div id="docentenDiv">
+        <p class="docentTitle">Alle docenten:</p>
+        <table id="docentenTable">
+          <tr>
+            <th>Volledige naam</th>
+            <th>Gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+            <th>klas 1</th>
+            <th>klas 2</th>
+            <th>klas 3</th>
+            <th>klas 4</th>
+            <th>klas 5</th>
+          </tr>
+        </table>
+      </div>
+      <div id="leerlingDiv">
+        <p class="docentTitle">Alle leerlingen:</p>
+        <table class="leerlingTable" id="leerlingTable1">
+          <tr>
+            <th>Klas 1:</th>
+            <th>Volledige naam</th>
+            <th>gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+          </tr>
+        </table>
+        <table class="leerlingTable" id="leerlingTable2">
+          <tr>
+            <th>Klas 2:</th>
+            <th>Volledige naam</th>
+            <th>gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+          </tr>
+        </table>
+        <table class="leerlingTable" id="leerlingTable3">
+          <tr>
+            <th>Klas 3:</th>
+            <th>Volledige naam</th>
+            <th>gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+          </tr>
+        </table>
+        <table class="leerlingTable" id="leerlingTable4">
+          <tr>
+            <th>Klas 4:</th>
+            <th>Volledige naam</th>
+            <th>gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+          </tr>
+        </table>
+        <table class="leerlingTable" id="leerlingTable5">
+          <tr>
+            <th>Klas 5:</th>
+            <th>Volledige naam</th>
+            <th>gebruikersnaam</th>
+            <th>email</th>
+            <th>taal</th>
+            <th>moeilijkheidsgraad</th>
+            <th>permissies</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="grid_body_games">
+      <p class="welcome_game">Kies Een Game!</p>
+      <div id="1" class="grid_games">
+        <p class="game_text_1">Game 1</p>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/src/client/js/docent.js"></script>
+    <script src="/src/client/js/logout.js"></script>
+  </body>
+</html>

@@ -11,7 +11,7 @@ const questionElement = document.getElementById("questionDisplay");
 const answerInput = document.getElementById("sumfield");
 const submitButton = document.getElementById("submitButton");
 const messageElement = document.getElementById("messageDisplay");
-const scoreElement = document.getElementById("score"); // Add score element
+const scoreElement = document.getElementById("score");
 const finishedGameCloseButton = document.getElementById(
   "finishedGameCloseButton"
 );
@@ -159,14 +159,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Listen for the "persoFinished" event
   socket.on("finished", (data) => {
-    console.log("Your player has finished:", data.finished);
+    // console.log("Your player has finished:", data.finished);
     waitingGamePopup.style.display = "none";
     finishedGamePopup.style.display = "block";
   });
 
   // Listen for the "top3Players" event
   socket.on("top3Players", (data) => {
-    console.log("Received top3Players event", data);
+    // console.log("Received top3Players event", data);
 
     const top3Usernames = data.top3;
 
@@ -185,10 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.on("userIndex", (data) => {
+    //console.log("userIndex: ", data);
     const gameScoreBoard = document.getElementById("gameScoreBoard");
     gameScoreBoard.style.display = "grid";
-    const multiProfilePhoto = document.getElementById("multiProfilePhoto");
-    multiProfilePhoto.style.display = "inline-block";
     const multiUserIndex = data.user;
     const progress = data.progress;
     const multiUserScoreIndex = data.index;
@@ -200,45 +199,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Clear previous content in othersContainer
     document.getElementById("othersLeft").innerHTML = "";
-    document.getElementById("othersRight").innerHTML = "";
 
     // Loop through the userScores dictionary and create a new row for each user
     for (const [username, score] of Object.entries(userScores)) {
       const usernameIndex = document.createElement("span");
       const usernameScore = document.createElement("span");
-      const multiProfilePhoto = document.createElement("img");
-      multiProfilePhoto.classList.add("profilePhoto");
       usernameIndex.classList.add("userIndex");
       usernameScore.classList.add("userScore");
 
-      const totalScore = 20;
-      const barHeight = 450;
-      const correctedHeight = barHeight - 45;
-
-      const profilePhotoPosition =
-        (1 - multiUserScoreIndex / totalScore) * correctedHeight;
-      multiProfilePhoto.style.top = profilePhotoPosition + "px";
-
-      const altText = String(data.firstLetter);
-
-      multiProfilePhoto.src = data.userPhoto;
-      multiProfilePhoto.alt = altText;
       usernameScore.textContent = progress;
       usernameIndex.textContent = multiUserIndex;
 
       document.getElementById("othersLeft").appendChild(usernameScore);
       document.getElementById("othersLeft").appendChild(usernameIndex);
-
-      document.getElementById("othersRight").appendChild(multiProfilePhoto);
     }
   });
 
   socket.on("persUserIndex", (data) => {
-    const profilePhoto = document.getElementById("profilePhoto");
-    profilePhoto.style.display = "inline-block";
-    const altText = String(data.firstLetter);
-    profilePhoto.alt = altText;
-    const profilePhotoPath = data.userPhoto;
+    //console.log("persUserIndex: ", data);
     personalUserIndex = data.user;
     personalUserScore = data.index;
     const personalUserProgress = data.progress;
@@ -247,20 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameScoreBoard.style.display = "grid";
     const usernameIndex = document.getElementById("usernameIndex");
     const usernameScore = document.getElementById("usernameScore");
-    const profilePhotoElement = document.getElementById("profilePhoto");
 
-    const totalScore = 20;
-    const barHeight = 450;
-    const correctedHeight = barHeight - 45;
-
-    const profilePhotoPosition =
-      (1 - personalUserScore / totalScore) * correctedHeight;
-    profilePhotoElement.style.top = profilePhotoPosition + "px";
-
-    if (profilePhotoPath) {
-      profilePhotoElement.src = profilePhotoPath;
-      usernameIndex.textContent = personalUserIndex;
-      usernameScore.textContent = personalUserProgress;
-    }
+    usernameIndex.textContent = personalUserIndex;
+    usernameScore.textContent = personalUserProgress;
   });
 });

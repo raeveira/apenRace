@@ -4,7 +4,7 @@ const db = require("../database");
 
 // Save the selected leaderboard for the logged-in user
 const saveLeaderPreference = (username, leaderboard) => {
-  console.log(username, " : ", leaderboard);
+  //console.log(username, " : ", leaderboard);
 
   // Check if the user exists in the account table
   const checkUserQuery = "SELECT * FROM account WHERE user_name = ?";
@@ -27,7 +27,7 @@ const saveLeaderPreference = (username, leaderboard) => {
                 if (updateError) {
                   console.error("Error updating leaderboard wins:", updateError);
                 } else {
-                  console.log("Leaderboard wins updated successfully");
+                  //console.log("Leaderboard wins updated successfully");
                 }
               });
             } else {
@@ -45,7 +45,7 @@ const saveLeaderPreference = (username, leaderboard) => {
         });
       } else {
         // User does not exist in the account table
-        console.error("User does not exist:", username);
+        // console.error("User does not exist:", username);
       }
     }
   });

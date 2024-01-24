@@ -68,6 +68,7 @@
   top: 18%;
   left: 45vw;
   right: 45vw;
+  width: max-content;
 }
 
 .buttons b {
@@ -245,6 +246,7 @@
 .login .form__button {
   width: 100%;
   padding: 1rem 2rem;
+  margin-bottom: 1rem;
   font-weight: bold;
   font-size: 1.1rem;
   color: #ffffff;
@@ -265,6 +267,7 @@
 
 .login .form__text {
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .login .form__link {
@@ -600,6 +603,13 @@
   right: 10px;
   color: rgb(6, 5, 5); /* Set text color to white */
   cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+#closeLeaderboardButton {
+  height: 25px;
+  width: 50%;
 }
 /* Style for the percentage display */
 
@@ -723,32 +733,14 @@
 
 #left,
 #othersLeft,
-#userLeft,
-#right {
-  width: 100%;
-}
-
-#right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 450px;
+#userLeft {
+  width: 300px;
 }
 
 #progressWrapper {
   position: relative;
   right: 0;
   height: 100%;
-}
-
-#progressBar {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
-  background: linear-gradient(#9198e5, #e6646400);
-  width: 55px;
 }
 
 #left .userScore,
@@ -761,19 +753,207 @@
   line-height: 200%;
 }
 
-.profilePhoto {
-  display: none;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 45px;
-  max-height: 45px;
-  border-radius: 25px;
-  border: 2px solid black;
-  height: 45px;
+.userIndex {
+  width: 200px;
+}
+
+/* Docent page */
+* {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  --gildeColor1pink: rgb(173, 5, 137);
+  --gildeColor2blue: rgb(17, 55, 124);
+  --gildeColor3purple: rgb(255, 0, 242);
+  --gildeColor4dark: rgb(46, 44, 46);
+  --gildeColor5greyWhite: rgb(211, 205, 206);
+
+.docentenBodyBody {
+  background-color: var(--gildeColor5greyWhite);
+}
+
+}
+.docentenNav {
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100%;
-  font-size: 1.25rem;
+  height: 45px;
+  background-color: var(--gildeColor2blue);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav_links {
+  color: white;
+  text-decoration: none;
+}
+
+.nav_links:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.body_docenten {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gildeColor5greyWhite);
+  height: 600px;
+  width: auto;
+}
+
+.grid_body_games {
+  background-color: var(--gildeColor5greyWhite);
+  height: 300px;
+  width: auto;
+  display: flex;
+  border-top: 4px solid black;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid_games {
+  margin-top: 120px;
+  height: 50px;
+  width: 300px;
+  background-color: var(--gildeColor4dark);
+}
+
+#leerlingDiv, #docentDiv {
+  overflow-y: scroll;
+}
+
+#docentenTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  display: none;
+}
+
+#docentenTable th, #docentenTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#docentenTable th {
+  background-color: #000000;
+  color: #fff;
+}
+
+#docentenTable tr:nth-child(even) {
+  background-color: #e14dcb;
+}
+
+#docentenTable tr:nth-child(odd) {
+  background-color: #df78cf;
+}
+
+#docentenTable tr:hover {
+  background-color: #860a97;
+}
+
+.leerlingTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  display: none;
+}
+
+.leerlingTable th, .leerlingTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.leerlingTable th {
+  background-color: #000000;
+  color: #fff;
+}
+
+.leerlingTable tr:nth-child(even) {
+  background-color: #e14dcb;
+}
+
+.leerlingTable tr:nth-child(odd) {
+  background-color: #df78cf;
+}
+
+.leerlingTable tr:hover {
+  background-color: #860a97;
+}
+
+#leerlingDiv .docentTitle, #docentenDiv .docentTitle, #homePageDiv .docentTitle{
+  font-size: 2rem;
+}
+
+.docentTitle {
   text-align: center;
-  line-height: 200%;
+  margin-bottom: 20px;
+}
+
+#leerlingDiv, #docentenDiv {
+  display: none;
+}
+
+.welcome_game {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.game_text_1 {
+  text-align: center;
+  color: red;
+  margin: 12px;
+}
+
+/* form docenten */
+
+.formInvoegen {
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+}
+
+.formInvoegen_title {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 10px;
+}
+
+input, .formInvoegen_invoegen {
+  padding: 7px;
+  margin-bottom: 5px;
+}
+
+.input_invoegen {
+  width: 300px;
+  height: 30px;
+  border-radius: 7px;
+  font-size: 1rem;
+}
+
+.formInvoegen__button {
+  width: 100px;
+  height: 30px;
+  background-color: rgb(17, 140, 17);
+  margin-bottom: 5px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.formInvoegen__button:hover {
+  background-color: rgb(25, 178, 41);
+  color: #000000;
 }
