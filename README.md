@@ -1,7 +1,7 @@
 
 # Voorgeinstalleerde modules:
 - Node
-- Een MYDQL Database met phpmyadmin
+- Een MYSQL Database met phpmyadmin
 
 # Database setup:
 - in phpmyadmin van de database import de ".sql" file en dit zal de benodige database aanmaken
